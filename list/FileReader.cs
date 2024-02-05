@@ -10,10 +10,10 @@ namespace list
 {
     public class FileReader
     {
-        private int _currentLinePosition = 0;
-        private int _lineIncrement = 40;
+        private int _lineIncrement = 10;
         private string _filePath;
         private int _offsetIncrement = 1024;
+        private int _currentPageNumber=1;
         
 
         public FileReader(string filePath)
@@ -24,51 +24,99 @@ namespace list
         public string getThisPage()
         {
             List<string> lines = new List<string>();
-            using (StreamReader streamReader = new StreamReader(_filePath, Encoding.GetEncoding(1251)))
+            try
             {
-
-                int firstLineNumber = _currentLinePosition;
-                int lastLineNumber = _currentLinePosition+_lineIncrement;                
-                for (int counter = 0; (streamReader.ReadLine())!=null&&counter<= lastLineNumber; counter++)
+                using (StreamReader streamReader = new StreamReader(_filePath, Encoding.GetEncoding(1251)))
                 {
-                    if (counter< firstLineNumber)
+                    int firstLineNumber = _currentPageNumber * _lineIncrement - _lineIncrement;
+                    int lastLineNumber = firstLineNumber + _lineIncrement;
+
+                    string line;
+                    for (int counter = 0; (line = streamReader.ReadLine()) != null && counter <= lastLineNumber; counter++)
                     {
-                        continue;
+
+                        if (counter < firstLineNumber)
+                        {
+                            continue;
+                        }
+
+
+                        lines.Add(line);
                     }
-                    lines.Add(streamReader.ReadLine());
                 }
+            }catch (Exception e)
+            {
+                throw new Exception("No file found");
             }
-            return string.Join(Environment.NewLine, lines).TrimEnd();
+            
+            return string.Join(Environment.NewLine, lines).Trim();
         }
 
-        public void setCurrentPage(uint pageNumber)
+        public void setCurrentPage(int pageNumber)
         {
-
+            if (pageNumber > this.getPagesCount()||pageNumber<1)
+            {
+                _currentPageNumber = this.getPagesCount();
+            }else
+            {
+                _currentPageNumber = pageNumber;
+            }
         }
 
         public string getNextPage()
         {
-            
+            if(_currentPageNumber< this.getPagesCount())
+            {
+                _currentPageNumber++;
+            }
             return getThisPage();
         }
 
         public string getPreviousPage()
         {
-            
+            if (_currentPageNumber > 1)
+            {
+                _currentPageNumber--;
+            }
             return getThisPage();
+        }
+        public int getCurrentPageNumber()
+        {
+            return _currentPageNumber;
         }
         public int getPagesCount()
         {
-            uint counter = 0;
-            using (StreamReader streamReader = new StreamReader(_filePath, Encoding.GetEncoding(1251)))
+            double counter = 0;
+            try
             {
-                while ((streamReader.ReadLine()) != null)
+                using (StreamReader streamReader = new StreamReader(_filePath, Encoding.GetEncoding(1251)))
                 {
-                    counter++;
+                    while ((streamReader.ReadLine()) != null)
+                    {
+                        counter++;
+                    }
                 }
+                double pagesCount = (counter / _lineIncrement);
+
+                return (int)Math.Ceiling(pagesCount);
+
             }
-            double pagesCount=(counter / _lineIncrement);
-            return (int) Math.Ceiling(pagesCount);
+            catch (Exception e)
+            {
+                throw new Exception("No file found");
+            }
+            
         } 
+        public void setLineIncrement(double newIncrement)
+        {
+            Console.WriteLine("line incr");
+            Console.WriteLine(_currentPageNumber);
+            Console.WriteLine(newIncrement);
+            Console.WriteLine(_lineIncrement);
+            _currentPageNumber = (int)Math.Floor(_currentPageNumber / newIncrement*_lineIncrement);
+            Console.WriteLine(_currentPageNumber);
+            _lineIncrement = (int)Math.Ceiling(newIncrement);
+            
+        }
     }
 }

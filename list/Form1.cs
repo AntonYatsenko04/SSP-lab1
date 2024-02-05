@@ -43,40 +43,50 @@ namespace list
             // получаем выбранный файл
             string filename = openFileDialog1.FileName;
             fileReader = new FileReader(filename);
-            NextPageButton.Enabled=true;
-            PreviousPageButton.Enabled = true;
+
             // читаем файл в строку
             string fileText = fileReader.getThisPage();
-            textBox1.Text = fileText;
-            MessageBox.Show("Файл открыт");
-        }
-
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-
+            mainTextWindow.Text = fileText;
+            updateForm();
         }
 
         private void IncreaseFontSizeButton_Click(object sender, EventArgs e)
         {
-
+            mainTextWindow.Font = new Font(mainTextWindow.Font.FontFamily, mainTextWindow.Font.Size+1);
         }
 
-        private void toolStripButton2_Click(object sender, EventArgs e)
+        private void decreaseFontSizeToolStripButton_Click(object sender, EventArgs e)
         {
-
+            mainTextWindow.Font = new Font(mainTextWindow.Font.FontFamily, mainTextWindow.Font.Size - 1);
         }
 
         private void previousPageButton_Click(object sender, EventArgs e)
         {
-            string fileText = fileReader.getPreviousPage();
-            textBox1.Text = fileText;
+            try
+            {
+                string fileText = fileReader.getPreviousPage();
+                mainTextWindow.Text = fileText;
+                pageNumberTextBox.Text = fileReader.getCurrentPageNumber().ToString();
+            }catch
+            {
+                handleException();
+            }
+
         }
 
         private void nextPageButton_Click(object sender, EventArgs e)
         {
-     
-            string fileText = fileReader.getNextPage();
-            textBox1.Text = fileText;
+            try
+            {
+                string fileText = fileReader.getNextPage();
+                mainTextWindow.Text = fileText;
+                pageNumberTextBox.Text = fileReader.getCurrentPageNumber().ToString();
+            }
+            catch
+            {
+                handleException();
+            }
+
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -89,17 +99,122 @@ namespace list
 
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
+        private void pageNumberTextBox_TextChanged(object sender, EventArgs e)
         {
-            bool isNumber = Regex.IsMatch(pageNumberTextBox.Text, @"^\d+$");
+            string textBoxText = pageNumberTextBox.Text;
+            bool isNumber = Regex.IsMatch(textBoxText, @"^\d+$");
             if (!isNumber)
             {
                 pageNumberTextBox.Text = "";
             }
+            else if (int.Parse(textBoxText)>fileReader.getPagesCount())
+            {
+                try
+                {
+                    pageNumberTextBox.Text = fileReader.getPagesCount().ToString();
+                }
+                catch
+                {
+                    handleException();
+                }
+                
+            }
         }
-        private void selectPage()
+
+        private void pageNumberTextBox_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                fileReader.setCurrentPage(int.Parse(pageNumberTextBox.Text));
+                mainTextWindow.Text = fileReader.getThisPage();
+            }
+            catch
+            {
+                handleException();
+            }
+
+        }
+
+        private void linesNumberDropDown_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            Console.WriteLine("das");
+        }
+
+        private void toolStripComboBox1_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("das");
+
+        }
+
+        private void stringNumComboBox_DropDown(object sender, EventArgs e)
         {
 
+        }
+
+        private void stringNumComboBox_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("das");
+        }
+
+        private void stringNumComboBox_DropDownStyleChanged(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void stringNumComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            { 
+            fileReader.setLineIncrement(int.Parse(stringNumComboBox.SelectedItem.ToString()));
+            mainTextWindow.Text = fileReader.getThisPage(); 
+            }
+            catch
+            {
+                handleException();
+            }
+            updateForm();
+        }
+        private void updateForm()
+        {
+            NextPageButton.Enabled = true;
+            PreviousPageButton.Enabled = true;
+            pageNumberTextBox.Enabled = true;
+            IncreaseFontSizeToolStripButton.Enabled = true;
+            decreaseFontSizeToolTipButton.Enabled = true;
+            linesNumberDropDown.Enabled = true;
+            try
+            {
+                pageNumberTextBox.Text = fileReader.getCurrentPageNumber().ToString();
+                AllPagesCountLabel.Text = fileReader.getPagesCount().ToString();
+            }
+            catch
+            {
+                handleException();
+            }
+            
+        }
+        private void resetForm()
+        {
+            NextPageButton.Enabled = false;
+            PreviousPageButton.Enabled = false;
+            pageNumberTextBox.Enabled = false;
+            IncreaseFontSizeToolStripButton.Enabled = false;
+            decreaseFontSizeToolTipButton.Enabled = false;
+            linesNumberDropDown.Enabled = false;
+            pageNumberTextBox.Text = "1";
+            AllPagesCountLabel.Text = "1";
+        }
+        private void handleException()
+        {
+            resetForm();
+            MessageBox.Show(
+       "Произошла ошибка",
+       "Сообщение",
+       MessageBoxButtons.OK,
+       MessageBoxIcon.Information,
+       MessageBoxDefaultButton.Button1,
+       MessageBoxOptions.DefaultDesktopOnly);
+            
         }
     }    
 }

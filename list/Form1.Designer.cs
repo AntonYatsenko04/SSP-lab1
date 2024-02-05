@@ -31,16 +31,19 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button1 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.mainTextWindow = new System.Windows.Forms.TextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.IncreaseFontSizeToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.decreaseFontSizeToolTipButton = new System.Windows.Forms.ToolStripButton();
+            this.linesNumberDropDown = new System.Windows.Forms.ToolStripDropDownButton();
             this.NextPageButton = new System.Windows.Forms.Button();
             this.PreviousPageButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.AllPagesCountLabel = new System.Windows.Forms.Label();
             this.pageNumberTextBox = new System.Windows.Forms.TextBox();
+            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.stringNumComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,26 +57,22 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
-            // openFileDialog1
+            // mainTextWindow
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(12, 72);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(776, 366);
-            this.textBox1.TabIndex = 1;
+            this.mainTextWindow.Location = new System.Drawing.Point(12, 72);
+            this.mainTextWindow.Multiline = true;
+            this.mainTextWindow.Name = "mainTextWindow";
+            this.mainTextWindow.ReadOnly = true;
+            this.mainTextWindow.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.mainTextWindow.Size = new System.Drawing.Size(776, 366);
+            this.mainTextWindow.TabIndex = 1;
             // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.IncreaseFontSizeToolStripButton,
-            this.decreaseFontSizeToolTipButton});
+            this.decreaseFontSizeToolTipButton,
+            this.linesNumberDropDown});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(800, 25);
@@ -83,6 +82,7 @@
             // IncreaseFontSizeToolStripButton
             // 
             this.IncreaseFontSizeToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.IncreaseFontSizeToolStripButton.Enabled = false;
             this.IncreaseFontSizeToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("IncreaseFontSizeToolStripButton.Image")));
             this.IncreaseFontSizeToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.IncreaseFontSizeToolStripButton.Name = "IncreaseFontSizeToolStripButton";
@@ -93,12 +93,22 @@
             // decreaseFontSizeToolTipButton
             // 
             this.decreaseFontSizeToolTipButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.decreaseFontSizeToolTipButton.Enabled = false;
             this.decreaseFontSizeToolTipButton.Image = ((System.Drawing.Image)(resources.GetObject("decreaseFontSizeToolTipButton.Image")));
             this.decreaseFontSizeToolTipButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.decreaseFontSizeToolTipButton.Name = "decreaseFontSizeToolTipButton";
             this.decreaseFontSizeToolTipButton.Size = new System.Drawing.Size(117, 22);
             this.decreaseFontSizeToolTipButton.Text = "Уменьшить шрифт";
-            this.decreaseFontSizeToolTipButton.Click += new System.EventHandler(this.toolStripButton2_Click);
+            this.decreaseFontSizeToolTipButton.Click += new System.EventHandler(this.decreaseFontSizeToolStripButton_Click);
+            // 
+            // linesNumberDropDown
+            // 
+            this.linesNumberDropDown.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.stringNumComboBox});
+            this.linesNumberDropDown.Enabled = false;
+            this.linesNumberDropDown.Name = "linesNumberDropDown";
+            this.linesNumberDropDown.Size = new System.Drawing.Size(168, 22);
+            this.linesNumberDropDown.Text = "Выбрать количество строк";
             // 
             // NextPageButton
             // 
@@ -149,22 +159,53 @@
             this.label2.Text = "из";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
-            // label3
+            // AllPagesCountLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(461, 465);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(13, 13);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "0";
+            this.AllPagesCountLabel.AutoSize = true;
+            this.AllPagesCountLabel.Location = new System.Drawing.Point(461, 465);
+            this.AllPagesCountLabel.Name = "AllPagesCountLabel";
+            this.AllPagesCountLabel.Size = new System.Drawing.Size(13, 13);
+            this.AllPagesCountLabel.TabIndex = 8;
+            this.AllPagesCountLabel.Text = "0";
             // 
             // pageNumberTextBox
             // 
+            this.pageNumberTextBox.Enabled = false;
             this.pageNumberTextBox.Location = new System.Drawing.Point(330, 460);
             this.pageNumberTextBox.Name = "pageNumberTextBox";
             this.pageNumberTextBox.Size = new System.Drawing.Size(100, 20);
             this.pageNumberTextBox.TabIndex = 9;
-            this.pageNumberTextBox.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            this.pageNumberTextBox.TextChanged += new System.EventHandler(this.pageNumberTextBox_TextChanged);
+            this.pageNumberTextBox.Leave += new System.EventHandler(this.pageNumberTextBox_Leave);
+            // 
+            // toolStripComboBox1
+            // 
+            this.toolStripComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.toolStripComboBox1.Items.AddRange(new object[] {
+            "10",
+            "20",
+            "30",
+            "40",
+            "50"});
+            this.toolStripComboBox1.Name = "toolStripComboBox1";
+            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 23);
+            this.toolStripComboBox1.Click += new System.EventHandler(this.toolStripComboBox1_Click);
+            // 
+            // stringNumComboBox
+            // 
+            this.stringNumComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.stringNumComboBox.Items.AddRange(new object[] {
+            "10",
+            "20",
+            "30",
+            "40",
+            "50"});
+            this.stringNumComboBox.Name = "stringNumComboBox";
+            this.stringNumComboBox.Size = new System.Drawing.Size(121, 23);
+            this.stringNumComboBox.DropDown += new System.EventHandler(this.stringNumComboBox_DropDown);
+            this.stringNumComboBox.DropDownStyleChanged += new System.EventHandler(this.stringNumComboBox_DropDownStyleChanged);
+            this.stringNumComboBox.SelectedIndexChanged += new System.EventHandler(this.stringNumComboBox_SelectedIndexChanged);
+            this.stringNumComboBox.Click += new System.EventHandler(this.stringNumComboBox_Click);
             // 
             // Form1
             // 
@@ -172,13 +213,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 495);
             this.Controls.Add(this.pageNumberTextBox);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.AllPagesCountLabel);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.PreviousPageButton);
             this.Controls.Add(this.NextPageButton);
             this.Controls.Add(this.toolStrip1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.mainTextWindow);
             this.Controls.Add(this.button1);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -194,7 +235,7 @@
 
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox mainTextWindow;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton IncreaseFontSizeToolStripButton;
         private System.Windows.Forms.ToolStripButton decreaseFontSizeToolTipButton;
@@ -202,8 +243,11 @@
         private System.Windows.Forms.Button PreviousPageButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label AllPagesCountLabel;
         private System.Windows.Forms.TextBox pageNumberTextBox;
+        private System.Windows.Forms.ToolStripDropDownButton linesNumberDropDown;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
+        private System.Windows.Forms.ToolStripComboBox stringNumComboBox;
     }
 }
 
