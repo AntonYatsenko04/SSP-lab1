@@ -25,7 +25,7 @@ namespace list
             InitializeComponent();
             openFileDialog1.Filter = "Text files(*.txt)|*.txt";
             this.MinimumSize = new Size(800, 600);
-            this.MaximumSize = new Size(1200, 900);
+            //this.MaximumSize = new Size(1200, 900);
         }
         
         private void Form1_Load(object sender, EventArgs e)
@@ -103,11 +103,22 @@ namespace list
         {
             string textBoxText = pageNumberTextBox.Text;
             bool isNumber = Regex.IsMatch(textBoxText, @"^\d+$");
+            int maxCurrentPagesCount;
+            try
+            {
+                maxCurrentPagesCount = fileReader.getPagesCount();
+            }
+            catch
+            {
+                handleException();
+                return;
+            }
+            
             if (!isNumber)
             {
-                pageNumberTextBox.Text = "";
+                pageNumberTextBox.Text = "1";
             }
-            else if (int.Parse(textBoxText)>fileReader.getPagesCount())
+            else if (int.Parse(textBoxText)>maxCurrentPagesCount)
             {
                 try
                 {
@@ -195,6 +206,7 @@ namespace list
         }
         private void resetForm()
         {
+            fileReader = null;
             NextPageButton.Enabled = false;
             PreviousPageButton.Enabled = false;
             pageNumberTextBox.Enabled = false;
@@ -203,17 +215,18 @@ namespace list
             linesNumberDropDown.Enabled = false;
             pageNumberTextBox.Text = "1";
             AllPagesCountLabel.Text = "1";
+            mainTextWindow.Text="";
         }
         private void handleException()
         {
             resetForm();
-            MessageBox.Show(
-       "Произошла ошибка",
-       "Сообщение",
-       MessageBoxButtons.OK,
-       MessageBoxIcon.Information,
-       MessageBoxDefaultButton.Button1,
-       MessageBoxOptions.DefaultDesktopOnly);
+      //      MessageBox.Show(
+      // "Произошла ошибка",
+      // "Сообщение",
+      // MessageBoxButtons.OK,
+      // MessageBoxIcon.Information,
+      // MessageBoxDefaultButton.Button1,
+      // MessageBoxOptions.DefaultDesktopOnly);
             
         }
     }    
