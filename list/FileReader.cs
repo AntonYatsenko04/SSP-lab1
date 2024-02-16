@@ -98,7 +98,7 @@ namespace list
                 }
                 double pagesCount = (counter / _lineIncrement);
 
-                return (int)Math.Ceiling(pagesCount);
+                return (int)Math.Ceiling(pagesCount)==0?1: (int)Math.Ceiling(pagesCount);
 
             }
             catch (Exception e)

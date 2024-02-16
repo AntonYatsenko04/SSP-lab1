@@ -229,5 +229,15 @@ namespace list
       // MessageBoxOptions.DefaultDesktopOnly);
             
         }
+
+        private void mainTextWindow_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AllPagesCountLabel_Click(object sender, EventArgs e)
+        {
+
+        }
     }    
 }
