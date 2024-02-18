@@ -14,6 +14,7 @@ namespace list
         private string _filePath;
         private int _offsetIncrement = 1024;
         private int _currentPageNumber=1;
+        private List<string> _lines = new List<string>();
         
 
         public FileReader(string filePath)
@@ -52,12 +53,16 @@ namespace list
             return string.Join(Environment.NewLine, lines).Trim();
         }
 
-        public void setCurrentPage(int pageNumber)
+        public void setCurrentPageNumber(int pageNumber)
         {
-            if (pageNumber > this.getPagesCount()||pageNumber<1)
+            if (pageNumber > this.getPagesCount())
             {
                 _currentPageNumber = this.getPagesCount();
-            }else
+            }else if(pageNumber < 1)
+            {
+                _currentPageNumber = 1;
+            }
+            else
             {
                 _currentPageNumber = pageNumber;
             }
@@ -113,7 +118,7 @@ namespace list
             Console.WriteLine(_currentPageNumber);
             Console.WriteLine(newIncrement);
             Console.WriteLine(_lineIncrement);
-            _currentPageNumber = (int)Math.Floor(_currentPageNumber / newIncrement*_lineIncrement);
+            setCurrentPageNumber((int)Math.Floor(_currentPageNumber / newIncrement * _lineIncrement));
             Console.WriteLine(_currentPageNumber);
             _lineIncrement = (int)Math.Ceiling(newIncrement);
             

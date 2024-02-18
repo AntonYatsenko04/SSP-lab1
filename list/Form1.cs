@@ -1,149 +1,162 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolBar;
 
 namespace list
 {
     public partial class Form1 : Form
     {
-        FileReader fileReader=null;
-        bool pageButtonsDisabled=false;
-        int currentPage = 1;
-        int maxPages = 1;
+        private readonly IFileReader fileReader = new FileReaderImpl();
+        private readonly string fileSystemErrorMsg = "Проблемы файловой системы";
+        private int currentPage = 1;
+        private FileReader fReader;
+        private bool isDisabled = true;
+        private int maxPages = 1;
+        private bool pageButtonsDisabled = false;
+
         public Form1()
         {
             InitializeComponent();
+            InitializeBindings();
+
             openFileDialog1.Filter = "Text files(*.txt)|*.txt";
-            this.MinimumSize = new Size(800, 600);
+            MinimumSize = new Size(800, 600);
             //this.MaximumSize = new Size(1200, 900);
         }
-        
+
+        private void InitializeBindings()
+        {
+            var pageCountToLabel = new Binding("Text", fileReader.readerModel, "PagesCount");
+            var currentPageNumber = new Binding("Text", fileReader.readerModel, "CurrentPageNumber");
+            pageNumberTextBox.DataBindings.Add(currentPageNumber);
+            AllPagesCountLabel.DataBindings.Add(pageCountToLabel);
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
-            
         }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
+            if (openFileDialog1.ShowDialog() == DialogResult.Cancel) return;
+
+            // получаем выбранный файл
+            var filename = openFileDialog1.FileName;
+            if (ReadFromEndUntilDot(filename) != "txt")
             {
+                MessageBox.Show("Неправильно выбран файл");
                 return;
             }
-                
-            // получаем выбранный файл
-            string filename = openFileDialog1.FileName;
-            fileReader = new FileReader(filename);
 
+            Console.Write(filename);
+            fReader = new FileReader(filename);
+            isDisabled = false;
             // читаем файл в строку
-            string fileText = fileReader.getThisPage();
+            var fileText = fReader.getThisPage();
             mainTextWindow.Text = fileText;
             updateForm();
         }
 
+        public static string ReadFromEndUntilDot(string input)
+        {
+            var dotIndex = input.LastIndexOf('.');
+            if (dotIndex != -1)
+            {
+                var result = input.Substring(dotIndex + 1);
+                return result;
+            }
+
+            return string.Empty;
+        }
+
         private void IncreaseFontSizeButton_Click(object sender, EventArgs e)
         {
-            mainTextWindow.Font = new Font(mainTextWindow.Font.FontFamily, mainTextWindow.Font.Size+1);
+            if (mainTextWindow.Font.Size < 50)
+                mainTextWindow.Font = new Font(mainTextWindow.Font.FontFamily, mainTextWindow.Font.Size + 1);
         }
 
         private void decreaseFontSizeToolStripButton_Click(object sender, EventArgs e)
         {
-            mainTextWindow.Font = new Font(mainTextWindow.Font.FontFamily, mainTextWindow.Font.Size - 1);
+            if (mainTextWindow.Font.Size > 5)
+                mainTextWindow.Font = new Font(mainTextWindow.Font.FontFamily, mainTextWindow.Font.Size - 1);
         }
 
         private void previousPageButton_Click(object sender, EventArgs e)
         {
             try
             {
-                string fileText = fileReader.getPreviousPage();
+                var fileText = fReader.getPreviousPage();
                 mainTextWindow.Text = fileText;
-                pageNumberTextBox.Text = fileReader.getCurrentPageNumber().ToString();
-            }catch
-            {
-                handleException();
+                pageNumberTextBox.Text = fReader.getCurrentPageNumber().ToString();
             }
-
+            catch
+            {
+                handleException(fileSystemErrorMsg);
+            }
         }
 
         private void nextPageButton_Click(object sender, EventArgs e)
         {
             try
             {
-                string fileText = fileReader.getNextPage();
+                var fileText = fReader.getNextPage();
                 mainTextWindow.Text = fileText;
-                pageNumberTextBox.Text = fileReader.getCurrentPageNumber().ToString();
+                pageNumberTextBox.Text = fReader.getCurrentPageNumber().ToString();
             }
             catch
             {
-                handleException();
+                handleException(fileSystemErrorMsg);
             }
-
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-
         }
 
         private void label2_Click(object sender, EventArgs e)
         {
-
         }
 
         private void pageNumberTextBox_TextChanged(object sender, EventArgs e)
         {
-            string textBoxText = pageNumberTextBox.Text;
-            bool isNumber = Regex.IsMatch(textBoxText, @"^\d+$");
+            var textBoxText = pageNumberTextBox.Text;
+            var isNumber = Regex.IsMatch(textBoxText, @"^\d+$");
             int maxCurrentPagesCount;
             try
             {
-                maxCurrentPagesCount = fileReader.getPagesCount();
+                maxCurrentPagesCount = fReader.getPagesCount();
             }
             catch
             {
-                handleException();
+                handleException(fileSystemErrorMsg);
                 return;
             }
-            
+
             if (!isNumber)
-            {
                 pageNumberTextBox.Text = "1";
-            }
-            else if (int.Parse(textBoxText)>maxCurrentPagesCount)
-            {
+            else if (int.Parse(textBoxText) > maxCurrentPagesCount)
                 try
                 {
-                    pageNumberTextBox.Text = fileReader.getPagesCount().ToString();
+                    pageNumberTextBox.Text = fReader.getPagesCount().ToString();
                 }
                 catch
                 {
-                    handleException();
+                    handleException(fileSystemErrorMsg);
                 }
-                
-            }
         }
 
         private void pageNumberTextBox_Leave(object sender, EventArgs e)
         {
             try
             {
-                fileReader.setCurrentPage(int.Parse(pageNumberTextBox.Text));
-                mainTextWindow.Text = fileReader.getThisPage();
+                fReader.setCurrentPageNumber(int.Parse(pageNumberTextBox.Text));
+                mainTextWindow.Text = fReader.getThisPage();
             }
             catch
             {
-                handleException();
+                handleException(fileSystemErrorMsg);
             }
-
         }
 
         private void linesNumberDropDown_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -154,12 +167,10 @@ namespace list
         private void toolStripComboBox1_Click(object sender, EventArgs e)
         {
             Console.WriteLine("das");
-
         }
 
         private void stringNumComboBox_DropDown(object sender, EventArgs e)
         {
-
         }
 
         private void stringNumComboBox_Click(object sender, EventArgs e)
@@ -169,22 +180,24 @@ namespace list
 
         private void stringNumComboBox_DropDownStyleChanged(object sender, EventArgs e)
         {
-           
         }
 
         private void stringNumComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
-            { 
-            fileReader.setLineIncrement(int.Parse(stringNumComboBox.SelectedItem.ToString()));
-            mainTextWindow.Text = fileReader.getThisPage(); 
+            {
+                fReader.setLineIncrement(int.Parse(stringNumComboBox.SelectedItem.ToString()));
+                pageNumberTextBox.Text = fReader.getCurrentPageNumber().ToString();
+                mainTextWindow.Text = fReader.getThisPage();
             }
             catch
             {
-                handleException();
+                handleException(fileSystemErrorMsg);
             }
+
             updateForm();
         }
+
         private void updateForm()
         {
             NextPageButton.Enabled = true;
@@ -195,49 +208,51 @@ namespace list
             linesNumberDropDown.Enabled = true;
             try
             {
-                pageNumberTextBox.Text = fileReader.getCurrentPageNumber().ToString();
-                AllPagesCountLabel.Text = fileReader.getPagesCount().ToString();
+                pageNumberTextBox.Text = fReader.getCurrentPageNumber().ToString();
+                AllPagesCountLabel.Text = fReader.getPagesCount().ToString();
             }
             catch
             {
-                handleException();
+                handleException(fileSystemErrorMsg);
             }
-            
         }
-        private void resetForm()
+
+        private void resetForm(string errorMessage)
         {
-            fileReader = null;
-            NextPageButton.Enabled = false;
-            PreviousPageButton.Enabled = false;
-            pageNumberTextBox.Enabled = false;
-            IncreaseFontSizeToolStripButton.Enabled = false;
-            decreaseFontSizeToolTipButton.Enabled = false;
-            linesNumberDropDown.Enabled = false;
-            pageNumberTextBox.Text = "1";
-            AllPagesCountLabel.Text = "1";
-            mainTextWindow.Text="";
+            if (!isDisabled)
+            {
+                MessageBox.Show(errorMessage);
+                fReader = null;
+                NextPageButton.Enabled = false;
+                PreviousPageButton.Enabled = false;
+                pageNumberTextBox.Enabled = false;
+                IncreaseFontSizeToolStripButton.Enabled = false;
+                decreaseFontSizeToolTipButton.Enabled = false;
+                linesNumberDropDown.Enabled = false;
+                pageNumberTextBox.Text = "1";
+                AllPagesCountLabel.Text = "1";
+                mainTextWindow.Text = "";
+            }
         }
-        private void handleException()
+
+        private void handleException(string errorMessage)
         {
-            resetForm();
-      //      MessageBox.Show(
-      // "Произошла ошибка",
-      // "Сообщение",
-      // MessageBoxButtons.OK,
-      // MessageBoxIcon.Information,
-      // MessageBoxDefaultButton.Button1,
-      // MessageBoxOptions.DefaultDesktopOnly);
-            
+            resetForm(errorMessage);
+            //      MessageBox.Show(
+            // "Произошла ошибка",
+            // "Сообщение",
+            // MessageBoxButtons.OK,
+            // MessageBoxIcon.Information,
+            // MessageBoxDefaultButton.Button1,
+            // MessageBoxOptions.DefaultDesktopOnly);
         }
 
         private void mainTextWindow_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         private void AllPagesCountLabel_Click(object sender, EventArgs e)
         {
-
         }
-    }    
+    }
 }
