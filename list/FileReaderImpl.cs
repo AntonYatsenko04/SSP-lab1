@@ -29,7 +29,7 @@ namespace list
                 string line;
                 var lines = new List<string>();
                 while ((line = sr.ReadLine()) != null) lines.Add(line);
-                readerModel.setAllLines(lines);
+                readerModel.SetAllLines(lines);
             }
         }
 

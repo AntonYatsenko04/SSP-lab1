@@ -1,39 +1,103 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace list
 {
-    public class ReaderModel
+    public class ReaderModel : INotifyPropertyChanged
     {
-        private List<string> allLines = new List<string>();
+        private List<string> _allLines = new List<string>();
 
-        public int linesCount { get; set; } = 10;
+        public int LinesCount { get; set; } = 10;
 
-        public List<string> linesToRead { get; set; } = new List<string>();
+        private string _linesToRead;
+        private  int _pagesCount = 1;
+        private int _currentPageNumber = 1;
 
-        public int PagesCount { get; set; } = 999;
+        public string LinesToRead
+        {
+            get
+            {
+                return _linesToRead;
+            }
+            set
+            {
+                if (value == _linesToRead) return;
+                _linesToRead = value; 
+                OnPropertyChanged();
+            }
+        }
 
-        public int CurrentPageNumber { get; set; } = 999;
+        public int PagesCount
+        {
+            get => _pagesCount;
+            private set
+            {
+                if (value == _pagesCount) return;
+                _pagesCount = value;
+                _CountPages();
+                OnPropertyChanged();
+            }
+        }
+
+        public int CurrentPageNumber
+        {
+            get => _currentPageNumber;
+            set
+            {
+                if (value == _currentPageNumber) return;
+                _currentPageNumber = value;
+                OnPropertyChanged();
+            }
+        }
 
         private void _CountPages()
         {
-            double allLinesCount = linesToRead.Count;
-            var newPagesCount = (int)Math.Ceiling(allLinesCount / linesCount);
+            double allLinesCount = _allLines.Count;
+            var newPagesCount = (int)Math.Ceiling(allLinesCount / LinesCount);
             if (newPagesCount > 0)
+            {
                 PagesCount = newPagesCount;
+            }
             else
+            {
                 PagesCount = 1;
+            }
         }
 
-        public void UpdateModel()
+        private void UpdateModel()
         {
+            CurrentPageNumber = 1;
             _CountPages();
+            _setLinesToRead();
         }
 
-        public void setAllLines(List<string> newLines)
+        public void SetAllLines(List<string> newLines)
         {
-            allLines = newLines;
+            _allLines = newLines;
             UpdateModel();
+        }
+
+        private void _setLinesToRead()
+        {
+            int startLineNumber = LinesCount * (CurrentPageNumber - 1);
+            PagesCount = 222;
+            int endLineNumber = startLineNumber + LinesCount;
+            var stringBuilder = new StringBuilder();
+            for (int i = startLineNumber; i < endLineNumber; i++)
+            {
+                stringBuilder.Append(_allLines[i]);
+            }
+            LinesToRead = stringBuilder.ToString();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -179,7 +179,6 @@
             this.label2.Size = new System.Drawing.Size(19, 13);
             this.label2.TabIndex = 7;
             this.label2.Text = "из";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // AllPagesCountLabel
             // 
