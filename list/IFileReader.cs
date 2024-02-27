@@ -11,7 +11,7 @@ namespace list
         public readonly ReaderModel readerModel = new ReaderModel();
         public abstract void SetFileByPath(string path);
         public abstract void SetLinesCountPerPage(int count);
-        public abstract void SetPageNumber();
+        public abstract void SetPageNumber(int pageNumber);
         public abstract void GoToNextPage();
         public abstract void GoToPreviousPage();
     }

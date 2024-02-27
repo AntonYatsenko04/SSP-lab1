@@ -10,11 +10,26 @@ namespace list
     {
         private List<string> _allLines = new List<string>();
 
-        public int LinesCount { get; set; } = 10;
+        public int LinesCount
+        {
+            get => _linesCount;
+            set
+            {
+                int currentStartLineNumber = (CurrentPageNumber - 1) * LinesCount;
+                int newPageNumber = currentStartLineNumber / value;
+                _linesCount = value;
+                OnPropertyChanged();
+                CurrentPageNumber = newPageNumber;
+                _CountPages();
+                _setLinesToRead();
+                OnPropertyChanged();
+            }
+        }
 
         private string _linesToRead;
         private  int _pagesCount = 1;
         private int _currentPageNumber = 1;
+        private int _linesCount = 10;
 
         public string LinesToRead
         {
@@ -24,7 +39,7 @@ namespace list
             }
             set
             {
-                if (value == _linesToRead) return;
+                //if (value == _linesToRead) return;
                 _linesToRead = value; 
                 OnPropertyChanged();
             }
@@ -48,7 +63,12 @@ namespace list
             set
             {
                 if (value == _currentPageNumber) return;
+                if (value > PagesCount||value<1)
+                {
+                    return;
+                }
                 _currentPageNumber = value;
+                _setLinesToRead();
                 OnPropertyChanged();
             }
         }
@@ -65,6 +85,7 @@ namespace list
             {
                 PagesCount = 1;
             }
+            OnPropertyChanged();
         }
 
         private void UpdateModel()
@@ -83,14 +104,14 @@ namespace list
         private void _setLinesToRead()
         {
             int startLineNumber = LinesCount * (CurrentPageNumber - 1);
-            PagesCount = 222;
             int endLineNumber = startLineNumber + LinesCount;
             var stringBuilder = new StringBuilder();
             for (int i = startLineNumber; i < endLineNumber; i++)
             {
-                stringBuilder.Append(_allLines[i]);
+                stringBuilder.AppendLine(_allLines[i]);
             }
             LinesToRead = stringBuilder.ToString();
+            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

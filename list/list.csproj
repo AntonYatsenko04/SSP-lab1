@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppException.cs" />
     <Compile Include="FileReaderImpl.cs" />
     <Compile Include="ReaderModel.cs" />
     <Compile Include="FileReader.cs" />

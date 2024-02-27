@@ -20,7 +20,7 @@ namespace list
             InitializeComponent();
             InitializeBindings();
             openFileDialog1.Filter = "Text files(*.txt)|*.txt";
-            MinimumSize = new Size(800, 600);
+            this.MinimumSize = new Size(800, 600);
             //this.MaximumSize = new Size(1200, 900);
         }
 
@@ -114,80 +114,22 @@ namespace list
                 handleException(fileSystemErrorMsg);
             }
         }
-        
+
 
         private void pageNumberTextBox_TextChanged(object sender, EventArgs e)
         {
-            var oldTextBoxText = pageNumberTextBox.Text;
-            var isNumber = Regex.IsMatch(textBoxText, @"^\d+$");
-            if (!isNumber)
+            if (!Regex.IsMatch(pageNumberTextBox.Text, @"^\d+$"))
             {
-                return;
-            }
-            int maxCurrentPagesCount;
-            try
-            {
-               fileReader.SetPageNumber();
-            }
-            catch
-            {
-                handleException(fileSystemErrorMsg);
-                return;
-            }
-
-            
-        }
-
-        private void pageNumberTextBox_Leave(object sender, EventArgs e)
-        {
-            try
-            {
-                fReader.setCurrentPageNumber(int.Parse(pageNumberTextBox.Text));
-                mainTextWindow.Text = fReader.getThisPage();
-            }
-            catch
-            {
-                handleException(fileSystemErrorMsg);
+                pageNumberTextBox.Text = fileReader.readerModel.CurrentPageNumber.ToString();
             }
         }
 
-        private void linesNumberDropDown_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-            Console.WriteLine("das");
-        }
-
-        private void toolStripComboBox1_Click(object sender, EventArgs e)
-        {
-            Console.WriteLine("das");
-        }
-
-        private void stringNumComboBox_DropDown(object sender, EventArgs e)
-        {
-        }
-
-        private void stringNumComboBox_Click(object sender, EventArgs e)
-        {
-            Console.WriteLine("das");
-        }
-
-        private void stringNumComboBox_DropDownStyleChanged(object sender, EventArgs e)
-        {
-        }
 
         private void stringNumComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            try
-            {
-                fReader.setLineIncrement(int.Parse(stringNumComboBox.SelectedItem.ToString()));
-                pageNumberTextBox.Text = fReader.getCurrentPageNumber().ToString();
-                mainTextWindow.Text = fReader.getThisPage();
-            }
-            catch
-            {
-                handleException(fileSystemErrorMsg);
-            }
+            int newLinesCount = int.Parse(stringNumComboBox.SelectedItem.ToString());
+            fileReader.SetLinesCountPerPage(newLinesCount);
 
-            updateForm();
         }
 
         private void updateForm()

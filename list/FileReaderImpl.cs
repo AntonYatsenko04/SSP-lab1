@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
+using System.Windows.Forms;
 
 namespace list
 {
@@ -24,7 +26,7 @@ namespace list
         {
             using (var fs = File.Open(path, FileMode.Open, FileAccess.Read))
             using (var bs = new BufferedStream(fs))
-            using (var sr = new StreamReader(bs))
+            using (var sr = new StreamReader(stream: bs,encoding:Encoding.GetEncoding("windows-1251")))
             {
                 string line;
                 var lines = new List<string>();
@@ -35,12 +37,16 @@ namespace list
 
         public override void SetLinesCountPerPage(int count)
         {
-            throw new NotImplementedException();
+            readerModel.LinesCount = count;
         }
 
-        public override void SetPageNumber()
+        public override void SetPageNumber(int pageNumber)
         {
-            throw new NotImplementedException();
+            if (pageNumber > readerModel.PagesCount||pageNumber<1)
+            {
+                throw new AppException(message:"Неправильно выбран номер страницы");
+            }
+            readerModel.CurrentPageNumber = pageNumber;
         }
     }
 }

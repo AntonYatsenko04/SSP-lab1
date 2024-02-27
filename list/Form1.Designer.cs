@@ -127,10 +127,8 @@
             "50"});
             this.stringNumComboBox.Name = "stringNumComboBox";
             this.stringNumComboBox.Size = new System.Drawing.Size(121, 23);
-            this.stringNumComboBox.DropDown += new System.EventHandler(this.stringNumComboBox_DropDown);
-            this.stringNumComboBox.DropDownStyleChanged += new System.EventHandler(this.stringNumComboBox_DropDownStyleChanged);
-            this.stringNumComboBox.SelectedIndexChanged += new System.EventHandler(this.stringNumComboBox_SelectedIndexChanged);
-            this.stringNumComboBox.Click += new System.EventHandler(this.stringNumComboBox_Click);
+             this.stringNumComboBox.SelectedIndexChanged += new System.EventHandler(this.stringNumComboBox_SelectedIndexChanged);
+   
             // 
             // NextPageButton
             // 
@@ -198,7 +196,7 @@
             this.pageNumberTextBox.Size = new System.Drawing.Size(134, 20);
             this.pageNumberTextBox.TabIndex = 9;
             this.pageNumberTextBox.TextChanged += new System.EventHandler(this.pageNumberTextBox_TextChanged);
-            this.pageNumberTextBox.Leave += new System.EventHandler(this.pageNumberTextBox_Leave);
+
             // 
             // toolStripComboBox1
             // 
@@ -211,7 +209,7 @@
             "50"});
             this.toolStripComboBox1.Name = "toolStripComboBox1";
             this.toolStripComboBox1.Size = new System.Drawing.Size(121, 23);
-            this.toolStripComboBox1.Click += new System.EventHandler(this.toolStripComboBox1_Click);
+
             // 
             // Form1
             // 
