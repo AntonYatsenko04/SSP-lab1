@@ -42,7 +42,7 @@ namespace list
             var isEnabled2 = new Binding(propertyName: "Enabled", dataSource: fileReader.readerModel,
                 dataMember: "Enabled", dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged,
                 formattingEnabled: false);
-           
+
             var isEnabled4 = new Binding(propertyName: "Enabled", dataSource: fileReader.readerModel,
                 dataMember: "Enabled", dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged,
                 formattingEnabled: false);
@@ -51,7 +51,7 @@ namespace list
                 formattingEnabled: false);
             pageNumberTextBox.DataBindings.Add(isEnabled);
             mainTextWindow.DataBindings.Add(isEnabled2);
-            
+
             PreviousPageButton.DataBindings.Add(isEnabled4);
             NextPageButton.DataBindings.Add(isEnabled5);
 
@@ -87,13 +87,12 @@ namespace list
             {
                 handleException(exception.message);
             }
-            
+
             // читаем файл в строку
 
             // mainTextWindow.Text = fileText;
         }
 
-        
 
         private void previousPageButton_Click(object sender, EventArgs e)
         {
@@ -131,11 +130,12 @@ namespace list
 
         private void stringNumComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            try{
+            try
+            {
                 int newLinesCount = int.Parse(stringNumComboBox.SelectedItem.ToString());
                 fileReader.SetLinesCountPerPage(newLinesCount);
             }
-                catch (AppException exception)
+            catch (AppException exception)
             {
                 handleException(exception.message);
             }
@@ -180,15 +180,14 @@ namespace list
 
         private void handleException(string errorMessage)
         {
-            resetForm();
-                 MessageBox.Show(
-           
-                 text:errorMessage,
-            caption:"Произошла ошибка",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Error,
-            MessageBoxDefaultButton.Button1,
-            MessageBoxOptions.DefaultDesktopOnly);
+           // resetForm();
+            MessageBox.Show(
+                text: errorMessage,
+                caption: "Произошла ошибка",
+                buttons: MessageBoxButtons.OK,
+                icon: MessageBoxIcon.Error,
+                defaultButton: MessageBoxDefaultButton.Button1,
+                options: MessageBoxOptions.DefaultDesktopOnly);
         }
 
         public static string ReadFromEndUntilDot(string input)
@@ -214,7 +213,5 @@ namespace list
             if (mainTextWindow.Font.Size > 5)
                 mainTextWindow.Font = new Font(mainTextWindow.Font.FontFamily, mainTextWindow.Font.Size - 1);
         }
-
-      
     }
 }
