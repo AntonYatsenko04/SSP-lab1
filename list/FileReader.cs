@@ -35,15 +35,13 @@ namespace list
                     string line;
                     for (int counter = 0; (line = streamReader.ReadLine()) != null && counter <= lastLineNumber; counter++)
                     {
-
                         if (counter < firstLineNumber)
                         {
                             continue;
                         }
-
-
                         lines.Add(line);
                     }
+                    
                 }
             }catch (Exception e)
             {

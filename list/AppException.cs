@@ -10,5 +10,10 @@ namespace list
         {
             this.message = message;
         }
+
+        public AppException()
+        {
+            this.message = "Неизвестная ошибка";
+        }
     }
 }

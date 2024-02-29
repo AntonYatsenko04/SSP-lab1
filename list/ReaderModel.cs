@@ -10,6 +10,12 @@ namespace list
     {
         private List<string> _allLines = new List<string>();
 
+        public bool Enabled
+        {
+            get => _enabled;
+            set => _enabled = value;
+        }
+
         public int LinesCount
         {
             get => _linesCount;
@@ -30,6 +36,7 @@ namespace list
         private  int _pagesCount = 1;
         private int _currentPageNumber = 1;
         private int _linesCount = 10;
+        private bool _enabled;
 
         public string LinesToRead
         {

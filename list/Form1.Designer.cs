@@ -23,18 +23,15 @@
         #region Код, автоматически созданный конструктором форм Windows
 
         /// <summary>
-        /// Требуемый метод для поддержки конструктора — не изменяйте 
-        /// содержимое этого метода с помощью редактора кода.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.button1 = new System.Windows.Forms.Button();
+            this.OpenFileButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.mainTextWindow = new System.Windows.Forms.TextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.IncreaseFontSizeToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.decreaseFontSizeToolTipButton = new System.Windows.Forms.ToolStripButton();
             this.linesNumberDropDown = new System.Windows.Forms.ToolStripDropDownButton();
             this.stringNumComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.NextPageButton = new System.Windows.Forms.Button();
@@ -47,22 +44,20 @@
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // button1
+            // OpenFileButton
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(720, 27);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(102, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Открыть файл";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.OpenFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.OpenFileButton.Location = new System.Drawing.Point(720, 27);
+            this.OpenFileButton.Name = "OpenFileButton";
+            this.OpenFileButton.Size = new System.Drawing.Size(102, 23);
+            this.OpenFileButton.TabIndex = 0;
+            this.OpenFileButton.Text = "Открыть файл";
+            this.OpenFileButton.UseVisualStyleBackColor = true;
+            this.OpenFileButton.Click += new System.EventHandler(this.OpenFileButton_Click1);
             // 
             // mainTextWindow
             // 
-            this.mainTextWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mainTextWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.mainTextWindow.Location = new System.Drawing.Point(12, 56);
             this.mainTextWindow.Multiline = true;
             this.mainTextWindow.Name = "mainTextWindow";
@@ -70,47 +65,20 @@
             this.mainTextWindow.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.mainTextWindow.Size = new System.Drawing.Size(810, 398);
             this.mainTextWindow.TabIndex = 1;
-            this.mainTextWindow.TextChanged += new System.EventHandler(this.mainTextWindow_TextChanged);
             // 
             // toolStrip1
             // 
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.IncreaseFontSizeToolStripButton,
-            this.decreaseFontSizeToolTipButton,
-            this.linesNumberDropDown});
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.linesNumberDropDown });
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(834, 25);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // IncreaseFontSizeToolStripButton
-            // 
-            this.IncreaseFontSizeToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.IncreaseFontSizeToolStripButton.Enabled = false;
-            this.IncreaseFontSizeToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("IncreaseFontSizeToolStripButton.Image")));
-            this.IncreaseFontSizeToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.IncreaseFontSizeToolStripButton.Name = "IncreaseFontSizeToolStripButton";
-            this.IncreaseFontSizeToolStripButton.Size = new System.Drawing.Size(111, 22);
-            this.IncreaseFontSizeToolStripButton.Text = "Увеличить шрифт";
-            this.IncreaseFontSizeToolStripButton.Click += new System.EventHandler(this.IncreaseFontSizeButton_Click);
-            // 
-            // decreaseFontSizeToolTipButton
-            // 
-            this.decreaseFontSizeToolTipButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.decreaseFontSizeToolTipButton.Enabled = false;
-            this.decreaseFontSizeToolTipButton.Image = ((System.Drawing.Image)(resources.GetObject("decreaseFontSizeToolTipButton.Image")));
-            this.decreaseFontSizeToolTipButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.decreaseFontSizeToolTipButton.Name = "decreaseFontSizeToolTipButton";
-            this.decreaseFontSizeToolTipButton.Size = new System.Drawing.Size(117, 22);
-            this.decreaseFontSizeToolTipButton.Text = "Уменьшить шрифт";
-            this.decreaseFontSizeToolTipButton.Click += new System.EventHandler(this.decreaseFontSizeToolStripButton_Click);
-            // 
             // linesNumberDropDown
             // 
-            this.linesNumberDropDown.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.stringNumComboBox});
+            this.linesNumberDropDown.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.stringNumComboBox });
             this.linesNumberDropDown.Enabled = false;
             this.linesNumberDropDown.Name = "linesNumberDropDown";
             this.linesNumberDropDown.Size = new System.Drawing.Size(168, 22);
@@ -119,16 +87,10 @@
             // stringNumComboBox
             // 
             this.stringNumComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.stringNumComboBox.Items.AddRange(new object[] {
-            "10",
-            "20",
-            "30",
-            "40",
-            "50"});
+            this.stringNumComboBox.Items.AddRange(new object[] { "10", "20", "30", "40", "50" });
             this.stringNumComboBox.Name = "stringNumComboBox";
             this.stringNumComboBox.Size = new System.Drawing.Size(121, 23);
-             this.stringNumComboBox.SelectedIndexChanged += new System.EventHandler(this.stringNumComboBox_SelectedIndexChanged);
-   
+            this.stringNumComboBox.SelectedIndexChanged += new System.EventHandler(this.stringNumComboBox_SelectedIndexChanged);
             // 
             // NextPageButton
             // 
@@ -186,7 +148,6 @@
             this.AllPagesCountLabel.Size = new System.Drawing.Size(13, 13);
             this.AllPagesCountLabel.TabIndex = 8;
             this.AllPagesCountLabel.Text = "0";
-            this.AllPagesCountLabel.Click += new System.EventHandler(this.AllPagesCountLabel_Click);
             // 
             // pageNumberTextBox
             // 
@@ -196,20 +157,13 @@
             this.pageNumberTextBox.Size = new System.Drawing.Size(134, 20);
             this.pageNumberTextBox.TabIndex = 9;
             this.pageNumberTextBox.TextChanged += new System.EventHandler(this.pageNumberTextBox_TextChanged);
-
             // 
             // toolStripComboBox1
             // 
             this.toolStripComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.toolStripComboBox1.Items.AddRange(new object[] {
-            "10",
-            "20",
-            "30",
-            "40",
-            "50"});
+            this.toolStripComboBox1.Items.AddRange(new object[] { "10", "20", "30", "40", "50" });
             this.toolStripComboBox1.Name = "toolStripComboBox1";
             this.toolStripComboBox1.Size = new System.Drawing.Size(121, 23);
-
             // 
             // Form1
             // 
@@ -224,7 +178,7 @@
             this.Controls.Add(this.NextPageButton);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.mainTextWindow);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.OpenFileButton);
             this.Name = "Form1";
             this.Text = "Читатель";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -232,17 +186,14 @@
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button OpenFileButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.TextBox mainTextWindow;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton IncreaseFontSizeToolStripButton;
-        private System.Windows.Forms.ToolStripButton decreaseFontSizeToolTipButton;
         private System.Windows.Forms.Button NextPageButton;
         private System.Windows.Forms.Button PreviousPageButton;
         private System.Windows.Forms.Label label1;

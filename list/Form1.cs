@@ -36,6 +36,25 @@ namespace list
                 dataMember: "LinesToRead", dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged,
                 formattingEnabled: false);
 
+            var isEnabled = new Binding(propertyName: "Enabled", dataSource: fileReader.readerModel,
+                dataMember: "Enabled", dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged,
+                formattingEnabled: false);
+            var isEnabled2 = new Binding(propertyName: "Enabled", dataSource: fileReader.readerModel,
+                dataMember: "Enabled", dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged,
+                formattingEnabled: false);
+           
+            var isEnabled4 = new Binding(propertyName: "Enabled", dataSource: fileReader.readerModel,
+                dataMember: "Enabled", dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged,
+                formattingEnabled: false);
+            var isEnabled5 = new Binding(propertyName: "Enabled", dataSource: fileReader.readerModel,
+                dataMember: "Enabled", dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged,
+                formattingEnabled: false);
+            pageNumberTextBox.DataBindings.Add(isEnabled);
+            mainTextWindow.DataBindings.Add(isEnabled2);
+            
+            PreviousPageButton.DataBindings.Add(isEnabled4);
+            NextPageButton.DataBindings.Add(isEnabled5);
+
             pageNumberTextBox.DataBindings.Add(currentPageNumber);
             AllPagesCountLabel.DataBindings.Add(pageCountToLabel);
             mainTextWindow.DataBindings.Add(currentText);
@@ -45,7 +64,7 @@ namespace list
         {
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void OpenFileButton_Click1(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.Cancel) return;
 
@@ -67,29 +86,7 @@ namespace list
             // mainTextWindow.Text = fileText;
         }
 
-        public static string ReadFromEndUntilDot(string input)
-        {
-            var dotIndex = input.LastIndexOf('.');
-            if (dotIndex != -1)
-            {
-                var result = input.Substring(dotIndex + 1);
-                return result;
-            }
-
-            return string.Empty;
-        }
-
-        private void IncreaseFontSizeButton_Click(object sender, EventArgs e)
-        {
-            if (mainTextWindow.Font.Size < 50)
-                mainTextWindow.Font = new Font(mainTextWindow.Font.FontFamily, mainTextWindow.Font.Size + 1);
-        }
-
-        private void decreaseFontSizeToolStripButton_Click(object sender, EventArgs e)
-        {
-            if (mainTextWindow.Font.Size > 5)
-                mainTextWindow.Font = new Font(mainTextWindow.Font.FontFamily, mainTextWindow.Font.Size - 1);
-        }
+        
 
         private void previousPageButton_Click(object sender, EventArgs e)
         {
@@ -97,9 +94,9 @@ namespace list
             {
                 fileReader.GoToPreviousPage();
             }
-            catch
+            catch (AppException exception)
             {
-                handleException(fileSystemErrorMsg);
+                handleException(exception.Message);
             }
         }
 
@@ -109,9 +106,9 @@ namespace list
             {
                 fileReader.GoToNextPage();
             }
-            catch
+            catch (AppException exception)
             {
-                handleException(fileSystemErrorMsg);
+                handleException(exception.Message);
             }
         }
 
@@ -127,9 +124,14 @@ namespace list
 
         private void stringNumComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int newLinesCount = int.Parse(stringNumComboBox.SelectedItem.ToString());
-            fileReader.SetLinesCountPerPage(newLinesCount);
-
+            try{
+                int newLinesCount = int.Parse(stringNumComboBox.SelectedItem.ToString());
+                fileReader.SetLinesCountPerPage(newLinesCount);
+            }
+                catch (AppException exception)
+            {
+                handleException(exception.Message);
+            }
         }
 
         private void updateForm()
@@ -181,12 +183,28 @@ namespace list
             // MessageBoxOptions.DefaultDesktopOnly);
         }
 
-        private void mainTextWindow_TextChanged(object sender, EventArgs e)
+        public static string ReadFromEndUntilDot(string input)
         {
+            var dotIndex = input.LastIndexOf('.');
+            if (dotIndex != -1)
+            {
+                var result = input.Substring(dotIndex + 1);
+                return result;
+            }
+
+            return string.Empty;
         }
 
-        private void AllPagesCountLabel_Click(object sender, EventArgs e)
+        private void IncreaseFontSizeButton_Click(object sender, EventArgs e)
         {
+            if (mainTextWindow.Font.Size < 50)
+                mainTextWindow.Font = new Font(mainTextWindow.Font.FontFamily, mainTextWindow.Font.Size + 1);
+        }
+
+        private void decreaseFontSizeToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (mainTextWindow.Font.Size > 5)
+                mainTextWindow.Font = new Font(mainTextWindow.Font.FontFamily, mainTextWindow.Font.Size - 1);
         }
     }
 }
