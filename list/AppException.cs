@@ -4,7 +4,7 @@ namespace list
 {
     public class AppException : Exception
     {
-        private string message { get; }
+        public string message { get; }
 
         public AppException(string message)
         {

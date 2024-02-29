@@ -72,15 +72,22 @@ namespace list
             var filename = openFileDialog1.FileName;
             if (ReadFromEndUntilDot(filename) != "txt")
             {
-                MessageBox.Show("Неправильно выбран файл");
+                handleException("Неправильно выбран тип файла");
                 return;
             }
 
-            Console.Write(filename);
-            fileReader.SetFileByPath(filename);
-            updateForm();
-            //fReader = new FileReader(filename);
-            isDisabled = false;
+            try
+            {
+                fileReader.SetFileByPath(filename);
+                Console.Write(filename);
+                updateForm();
+                isDisabled = false;
+            }
+            catch (AppException exception)
+            {
+                handleException(exception.message);
+            }
+            
             // читаем файл в строку
 
             // mainTextWindow.Text = fileText;
@@ -96,7 +103,7 @@ namespace list
             }
             catch (AppException exception)
             {
-                handleException(exception.Message);
+                handleException(exception.message);
             }
         }
 
@@ -108,7 +115,7 @@ namespace list
             }
             catch (AppException exception)
             {
-                handleException(exception.Message);
+                handleException(exception.message);
             }
         }
 
@@ -130,7 +137,7 @@ namespace list
             }
                 catch (AppException exception)
             {
-                handleException(exception.Message);
+                handleException(exception.message);
             }
         }
 
@@ -153,18 +160,18 @@ namespace list
             // }
         }
 
-        private void resetForm(string errorMessage)
+        private void resetForm()
         {
             // if (!isDisabled)
             // {
             //     MessageBox.Show(errorMessage);
             //     fReader = null;
-            //     NextPageButton.Enabled = false;
-            //     PreviousPageButton.Enabled = false;
-            //     pageNumberTextBox.Enabled = false;
-            //     IncreaseFontSizeToolStripButton.Enabled = false;
-            //     decreaseFontSizeToolTipButton.Enabled = false;
-            //     linesNumberDropDown.Enabled = false;
+            NextPageButton.Enabled = false;
+            PreviousPageButton.Enabled = false;
+            pageNumberTextBox.Enabled = false;
+            IncreaseFontSizeToolStripButton.Enabled = false;
+            decreaseFontSizeToolTipButton.Enabled = false;
+            linesNumberDropDown.Enabled = false;
             //     pageNumberTextBox.Text = "1";
             //     AllPagesCountLabel.Text = "1";
             //     mainTextWindow.Text = "";
@@ -173,14 +180,15 @@ namespace list
 
         private void handleException(string errorMessage)
         {
-            //resetForm(errorMessage);
-            //      MessageBox.Show(
-            // "Произошла ошибка",
-            // "Сообщение",
-            // MessageBoxButtons.OK,
-            // MessageBoxIcon.Information,
-            // MessageBoxDefaultButton.Button1,
-            // MessageBoxOptions.DefaultDesktopOnly);
+            resetForm();
+                 MessageBox.Show(
+           
+                 text:errorMessage,
+            caption:"Произошла ошибка",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Error,
+            MessageBoxDefaultButton.Button1,
+            MessageBoxOptions.DefaultDesktopOnly);
         }
 
         public static string ReadFromEndUntilDot(string input)

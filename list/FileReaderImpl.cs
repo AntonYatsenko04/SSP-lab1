@@ -18,7 +18,7 @@ namespace list
             }
             catch
             {
-                throw new AppException("Возникла внутрення ошибка. Невозможно увеличить номер страницы");
+                throw new AppException("Возникла внутренняя ошибка. Невозможно увеличить номер страницы");
             }
         }
 
@@ -32,7 +32,7 @@ namespace list
             }
             catch
             {
-                throw new AppException("Возникла внутрення ошибка. Невозможно уменьшить номер страницы");
+                throw new AppException("Возникла внутренняя ошибка. Невозможно уменьшить номер страницы");
             }
             
         }
@@ -41,10 +41,17 @@ namespace list
         {
             try
             {
+
                 using (var fs = File.Open(path, FileMode.Open, FileAccess.Read))
                 using (var bs = new BufferedStream(fs))
                 using (var sr = new StreamReader(stream: bs, encoding: Encoding.GetEncoding("windows-1251")))
                 {
+                    Console.WriteLine(bs.Length);
+                    if (bs.Length > 524288000)
+                    {
+                        throw new AppException("Размер файла не должен превышать 500 мб");
+                    }
+
                     string line;
                     var lines = new List<string>();
                     while ((line = sr.ReadLine()) != null) lines.Add(line);
@@ -52,9 +59,13 @@ namespace list
                     readerModel.Enabled = true;
                 }
             }
+            catch (AppException exception)
+            {
+                throw;
+            }
             catch
             {
-                throw new AppException("Возникла внутрення ошибка. Невозможно прочитать данный файл");
+                throw new AppException("Возникла внутренняя ошибка. Невозможно прочитать данный файл");
             }
         }
 
@@ -66,7 +77,7 @@ namespace list
             }
             catch
             {
-                throw new AppException("Возникла внутрення ошибка. Невозможно установить новое значение количества строк"); 
+                throw new AppException("Возникла внутренняя ошибка. Невозможно установить новое значение количества строк"); 
             }
         }
 

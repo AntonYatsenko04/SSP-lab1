@@ -104,6 +104,7 @@ namespace list
 
         public void SetAllLines(List<string> newLines)
         {
+            _allLines.Clear();
             _allLines = newLines;
             UpdateModel();
         }
