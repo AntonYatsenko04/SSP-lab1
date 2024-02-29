@@ -206,5 +206,7 @@ namespace list
             if (mainTextWindow.Font.Size > 5)
                 mainTextWindow.Font = new Font(mainTextWindow.Font.FontFamily, mainTextWindow.Font.Size - 1);
         }
+
+      
     }
 }

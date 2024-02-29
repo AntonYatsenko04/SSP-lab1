@@ -27,11 +27,13 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
-        {
+        {System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.OpenFileButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.mainTextWindow = new System.Windows.Forms.TextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.IncreaseFontSizeToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.decreaseFontSizeToolTipButton = new System.Windows.Forms.ToolStripButton();
             this.linesNumberDropDown = new System.Windows.Forms.ToolStripDropDownButton();
             this.stringNumComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.NextPageButton = new System.Windows.Forms.Button();
@@ -69,12 +71,37 @@
             // toolStrip1
             // 
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.linesNumberDropDown });
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.IncreaseFontSizeToolStripButton,
+            this.decreaseFontSizeToolTipButton,
+            this.linesNumberDropDown});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(834, 25);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // IncreaseFontSizeToolStripButton
+            // 
+            this.IncreaseFontSizeToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.IncreaseFontSizeToolStripButton.Enabled = false;
+            this.IncreaseFontSizeToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("IncreaseFontSizeToolStripButton.Image")));
+            this.IncreaseFontSizeToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.IncreaseFontSizeToolStripButton.Name = "IncreaseFontSizeToolStripButton";
+            this.IncreaseFontSizeToolStripButton.Size = new System.Drawing.Size(111, 22);
+            this.IncreaseFontSizeToolStripButton.Text = "Увеличить шрифт";
+            this.IncreaseFontSizeToolStripButton.Click += new System.EventHandler(this.IncreaseFontSizeButton_Click);
+            // 
+            // decreaseFontSizeToolTipButton
+            // 
+            this.decreaseFontSizeToolTipButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.decreaseFontSizeToolTipButton.Enabled = false;
+            this.decreaseFontSizeToolTipButton.Image = ((System.Drawing.Image)(resources.GetObject("decreaseFontSizeToolTipButton.Image")));
+            this.decreaseFontSizeToolTipButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.decreaseFontSizeToolTipButton.Name = "decreaseFontSizeToolTipButton";
+            this.decreaseFontSizeToolTipButton.Size = new System.Drawing.Size(117, 22);
+            this.decreaseFontSizeToolTipButton.Text = "Уменьшить шрифт";
+            this.decreaseFontSizeToolTipButton.Click += new System.EventHandler(this.decreaseFontSizeToolStripButton_Click);
             // 
             // linesNumberDropDown
             // 
@@ -194,6 +221,8 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.TextBox mainTextWindow;
         private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton IncreaseFontSizeToolStripButton;
+        private System.Windows.Forms.ToolStripButton decreaseFontSizeToolTipButton;
         private System.Windows.Forms.Button NextPageButton;
         private System.Windows.Forms.Button PreviousPageButton;
         private System.Windows.Forms.Label label1;
