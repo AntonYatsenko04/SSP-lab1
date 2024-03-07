@@ -35,25 +35,7 @@ namespace list
             var currentText = new Binding(propertyName: "Text", dataSource: fileReader.readerModel,
                 dataMember: "LinesToRead", dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged,
                 formattingEnabled: false);
-
-            var isEnabled = new Binding(propertyName: "Enabled", dataSource: fileReader.readerModel,
-                dataMember: "Enabled", dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged,
-                formattingEnabled: false);
-            var isEnabled2 = new Binding(propertyName: "Enabled", dataSource: fileReader.readerModel,
-                dataMember: "Enabled", dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged,
-                formattingEnabled: false);
-
-            var isEnabled4 = new Binding(propertyName: "Enabled", dataSource: fileReader.readerModel,
-                dataMember: "Enabled", dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged,
-                formattingEnabled: false);
-            var isEnabled5 = new Binding(propertyName: "Enabled", dataSource: fileReader.readerModel,
-                dataMember: "Enabled", dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged,
-                formattingEnabled: false);
-            pageNumberTextBox.DataBindings.Add(isEnabled);
-            mainTextWindow.DataBindings.Add(isEnabled2);
-
-            PreviousPageButton.DataBindings.Add(isEnabled4);
-            NextPageButton.DataBindings.Add(isEnabled5);
+            
 
             pageNumberTextBox.DataBindings.Add(currentPageNumber);
             AllPagesCountLabel.DataBindings.Add(pageCountToLabel);
@@ -78,7 +60,7 @@ namespace list
 
             try
             {
-                fileReader.SetFileByPath(filename);
+                fileReader.InitialiseFileReader(filename);
                 Console.Write(filename);
                 updateForm();
                 isDisabled = false;
@@ -87,10 +69,6 @@ namespace list
             {
                 handleException(exception.message);
             }
-
-            // читаем файл в строку
-
-            // mainTextWindow.Text = fileText;
         }
 
 
@@ -133,7 +111,7 @@ namespace list
             try
             {
                 int newLinesCount = int.Parse(stringNumComboBox.SelectedItem.ToString());
-                fileReader.SetLinesCountPerPage(newLinesCount);
+                fileReader.SetBufferSize(newLinesCount);
             }
             catch (AppException exception)
             {
@@ -149,38 +127,22 @@ namespace list
             IncreaseFontSizeToolStripButton.Enabled = true;
             decreaseFontSizeToolTipButton.Enabled = true;
             linesNumberDropDown.Enabled = true;
-            // try
-            // {
-            //     pageNumberTextBox.Text = fReader.getCurrentPageNumber().ToString();
-            //     AllPagesCountLabel.Text = fReader.getPagesCount().ToString();
-            // }
-            // catch
-            // {
-            //     handleException(fileSystemErrorMsg);
-            // }
+           
         }
 
         private void resetForm()
         {
-            // if (!isDisabled)
-            // {
-            //     MessageBox.Show(errorMessage);
-            //     fReader = null;
             NextPageButton.Enabled = false;
             PreviousPageButton.Enabled = false;
             pageNumberTextBox.Enabled = false;
             IncreaseFontSizeToolStripButton.Enabled = false;
             decreaseFontSizeToolTipButton.Enabled = false;
             linesNumberDropDown.Enabled = false;
-            //     pageNumberTextBox.Text = "1";
-            //     AllPagesCountLabel.Text = "1";
-            //     mainTextWindow.Text = "";
-            // }
+            
         }
 
         private void handleException(string errorMessage)
         {
-           // resetForm();
             MessageBox.Show(
                 text: errorMessage,
                 caption: "Произошла ошибка",
