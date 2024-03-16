@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
@@ -77,6 +78,12 @@ namespace list
             }
         }
 
+        public override bool hasAccessToFile()
+        {
+            var sec = new CurrentUserSecurity();
+            return sec.HasAccess(new FileInfo(path), FileSystemRights.Read);
+        }
+
         public override void InitialiseFileReader(string path)
         {
             try
@@ -103,12 +110,25 @@ namespace list
 
         }
 
-        public override void SetBufferSize(int size)
+        public override void SetBufferSize(double size)
         {
             try
             {
-                buffersize = size;
-                SetPageNumber(1);
+                
+                double newPageNumber = buffersize * readerModel.CurrentPageNumber / size;
+                buffersize = (int)size;
+                readerModel.PagesCount = (int)fileLength / buffersize + 1;
+                if (newPageNumber > readerModel.PagesCount)
+                {
+                    newPageNumber = readerModel.PagesCount;
+                }
+
+                if (newPageNumber < 1)
+                {
+                    newPageNumber = 1;
+                }
+                
+                SetPageNumber((int)Math.Ceiling(newPageNumber) );
                 readPage();
             }
             catch
@@ -138,7 +158,6 @@ namespace list
                 }
 
                 readerModel.CurrentPageNumber = pageNumber;
-                // readPage();
             }
             catch
             {

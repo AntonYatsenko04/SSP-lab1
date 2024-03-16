@@ -118,8 +118,16 @@ namespace list
                     }
                     else
                     {
-                        fileReader.SetPageNumber(int.Parse(pageNumberTextBox.Text));
-                        fileReader.readPage();
+                        if (fileReader.hasAccessToFile())
+                        {
+                            fileReader.SetPageNumber(int.Parse(pageNumberTextBox.Text));
+                            fileReader.readPage();
+                        }
+                        else
+                        {
+                            throw new AppException();
+                        }
+                        
                     }
                 }
                 else
@@ -127,58 +135,11 @@ namespace list
                     isInit = true;
                 }
             }
-            catch
+            catch (AppException exception)
             {
                 pageNumberTextBox.Text = prevPageNumber.ToString();
             }
-            // int prevPageNumber = fileReader.readerModel.CurrentPageNumber;
-            //
-            // try
-            // {
-            //
-            //     if (isInit)
-            //     {
-            //
-            //         if (!Regex.IsMatch(pageNumberTextBox.Text, @"^\d+$"))
-            //         {
-            //
-            //             pageNumberTextBox.Text = fileReader.readerModel.CurrentPageNumber.ToString();
-            //         }
-            //         else
-            //         {
-            //             var modelPageNumber = fileReader.readerModel.CurrentPageNumber;
-            //             var textBoxTextNumber = int.Parse(pageNumberTextBox.Text);
-            //             if (modelPageNumber < textBoxTextNumber)
-            //             {
-            //                 while (fileReader.readerModel.CurrentPageNumber < textBoxTextNumber)
-            //                 {
-            //                     fileReader.GoToNextPage();
-            //                 }
-            //             }
-            //             else
-            //             {
-            //                 while (fileReader.readerModel.CurrentPageNumber > textBoxTextNumber)
-            //                 {
-            //                     fileReader.GoToPreviousPage();
-            //                 } 
-            //             }
-            //
-            //             fileReader.readPage();
-            //             //fileReader.SetPageNumber(int.Parse(pageNumberTextBox.Text));
-            //         }
-            //     }
-            //     else
-            //     {
-            //         isInit = true;
-            //     }
-            // }
-            // catch
-            // {
-            //     handleException("Не получилось установить номер страницы");
-            //     pageNumberTextBox.Text = prevPageNumber.ToString();
-            // }
-            //
-            //
+            
         }
     
 
