@@ -17,12 +17,11 @@ namespace list
         private bool isInit { get; set; } = false;
 
         public Form1()
-        {
-            InitializeComponent();
-            InitializeBindings();
-            openFileDialog1.Filter = "Text files(*.txt)|*.txt";
-            this.MinimumSize = new Size(800, 600);
-            //this.MaximumSize = new Size(1200, 900);
+        { 
+           InitializeComponent();
+           InitializeBindings();
+           openFileDialog1.Filter = "Text files(*.txt)|*.txt";
+           this.MinimumSize = new Size(800, 600);
         }
 
         private void InitializeBindings()

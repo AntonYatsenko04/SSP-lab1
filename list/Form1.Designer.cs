@@ -105,8 +105,8 @@
             this.linesNumberDropDown.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.stringNumComboBox });
             this.linesNumberDropDown.Enabled = false;
             this.linesNumberDropDown.Name = "linesNumberDropDown";
-            this.linesNumberDropDown.Size = new System.Drawing.Size(207, 24);
-            this.linesNumberDropDown.Text = "Выбрать количество строк";
+            this.linesNumberDropDown.Size = new System.Drawing.Size(193, 24);
+            this.linesNumberDropDown.Text = "Выбрать размер буфера";
             // 
             // stringNumComboBox
             // 

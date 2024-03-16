@@ -103,7 +103,7 @@ namespace list
             catch (Exception e)
             {
                 e.ToString();
-                throw new AppException("Возникла внутренняя ошибка. Невозможно прочитать данный файл");
+                throw new AppException(ErrorMessages.impossibleToReadFile);
             }
 
             
@@ -133,7 +133,7 @@ namespace list
             }
             catch
             {
-                throw new AppException("Возникла внутренняя ошибка. Невозможно установить новое значение размера"); 
+                throw new AppException(ErrorMessages.impossibleToSetSize); 
             }
         }
 
@@ -154,14 +154,14 @@ namespace list
             {
                 if (pageNumber > readerModel.PagesCount || pageNumber < 1)
                 {
-                    throw new AppException(message: "Неправильно выбран номер страницы");
+                    throw new AppException(message: ErrorMessages.wrongPageNumber);
                 }
 
                 readerModel.CurrentPageNumber = pageNumber;
             }
             catch
             {
-                throw new AppException("Невозможно установить номер страницы");
+                throw new AppException(ErrorMessages.impossibleToSetPageNumber);
             }
         }
         public override void GoToNextPage()
@@ -175,7 +175,7 @@ namespace list
             }
             catch
             {
-                throw new AppException("Возникла внутренняя ошибка. Невозможно увеличить номер страницы");
+                throw new AppException(ErrorMessages.impossibleToIncreasePageNumber);
             }
         }
 
@@ -190,7 +190,7 @@ namespace list
             }
             catch
             {
-                throw new AppException("Возникла внутренняя ошибка. Невозможно уменьшить номер страницы");
+                throw new AppException(ErrorMessages.impossibleToDecreasePageNumber);
             }
             
         }
