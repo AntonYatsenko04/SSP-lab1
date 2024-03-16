@@ -14,6 +14,7 @@ namespace list
         private bool isDisabled = true;
         private int maxPages = 1;
         private bool pageButtonsDisabled = false;
+        private bool isInit { get; set; } = false;
 
         public Form1()
         {
@@ -35,7 +36,7 @@ namespace list
             var currentText = new Binding(propertyName: "Text", dataSource: fileReader.readerModel,
                 dataMember: "LinesToRead", dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged,
                 formattingEnabled: false);
-            
+
 
             pageNumberTextBox.DataBindings.Add(currentPageNumber);
             AllPagesCountLabel.DataBindings.Add(pageCountToLabel);
@@ -77,6 +78,7 @@ namespace list
             try
             {
                 fileReader.GoToPreviousPage();
+                fileReader.readPage();
             }
             catch (AppException exception)
             {
@@ -89,6 +91,7 @@ namespace list
             try
             {
                 fileReader.GoToNextPage();
+                fileReader.readPage();
             }
             catch (AppException exception)
             {
@@ -99,14 +102,88 @@ namespace list
 
         private void pageNumberTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (!Regex.IsMatch(pageNumberTextBox.Text, @"^\d+$"))
+            int prevPageNumber = fileReader.readerModel.CurrentPageNumber;
+            
+            try
             {
-                pageNumberTextBox.Text = fileReader.readerModel.CurrentPageNumber.ToString();
+                
+            
+                if (isInit)
+                {
+            
+                    if (!Regex.IsMatch(pageNumberTextBox.Text, @"^\d+$"))
+                    {
+            
+                        pageNumberTextBox.Text = fileReader.readerModel.CurrentPageNumber.ToString();
+                    }
+                    else
+                    {
+                        fileReader.SetPageNumber(int.Parse(pageNumberTextBox.Text));
+                        fileReader.readPage();
+                    }
+                }
+                else
+                {
+                    isInit = true;
+                }
             }
+            catch
+            {
+                pageNumberTextBox.Text = prevPageNumber.ToString();
+            }
+            // int prevPageNumber = fileReader.readerModel.CurrentPageNumber;
+            //
+            // try
+            // {
+            //
+            //     if (isInit)
+            //     {
+            //
+            //         if (!Regex.IsMatch(pageNumberTextBox.Text, @"^\d+$"))
+            //         {
+            //
+            //             pageNumberTextBox.Text = fileReader.readerModel.CurrentPageNumber.ToString();
+            //         }
+            //         else
+            //         {
+            //             var modelPageNumber = fileReader.readerModel.CurrentPageNumber;
+            //             var textBoxTextNumber = int.Parse(pageNumberTextBox.Text);
+            //             if (modelPageNumber < textBoxTextNumber)
+            //             {
+            //                 while (fileReader.readerModel.CurrentPageNumber < textBoxTextNumber)
+            //                 {
+            //                     fileReader.GoToNextPage();
+            //                 }
+            //             }
+            //             else
+            //             {
+            //                 while (fileReader.readerModel.CurrentPageNumber > textBoxTextNumber)
+            //                 {
+            //                     fileReader.GoToPreviousPage();
+            //                 } 
+            //             }
+            //
+            //             fileReader.readPage();
+            //             //fileReader.SetPageNumber(int.Parse(pageNumberTextBox.Text));
+            //         }
+            //     }
+            //     else
+            //     {
+            //         isInit = true;
+            //     }
+            // }
+            // catch
+            // {
+            //     handleException("Не получилось установить номер страницы");
+            //     pageNumberTextBox.Text = prevPageNumber.ToString();
+            // }
+            //
+            //
         }
+    
 
 
-        private void stringNumComboBox_SelectedIndexChanged(object sender, EventArgs e)
+    private void stringNumComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
@@ -143,6 +220,7 @@ namespace list
 
         private void handleException(string errorMessage)
         {
+            resetForm();
             MessageBox.Show(
                 text: errorMessage,
                 caption: "Произошла ошибка",
@@ -175,5 +253,7 @@ namespace list
             if (mainTextWindow.Font.Size > 5)
                 mainTextWindow.Font = new Font(mainTextWindow.Font.FontFamily, mainTextWindow.Font.Size - 1);
         }
+
+        
     }
 }

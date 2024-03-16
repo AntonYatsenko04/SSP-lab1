@@ -38,11 +38,6 @@ namespace list
             get => _currentPageNumber;
             set
             {
-                if (value == _currentPageNumber) return;
-                if (value > PagesCount || value < 1)
-                {
-                    return;
-                }
                 _currentPageNumber = value;
                 OnPropertyChanged();
             }

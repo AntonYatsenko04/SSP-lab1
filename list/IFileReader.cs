@@ -14,5 +14,7 @@ namespace list
         public abstract void SetPageNumber(int pageNumber);
         public abstract void GoToNextPage();
         public abstract void GoToPreviousPage();
+
+        public abstract void readPage();
     }
 }

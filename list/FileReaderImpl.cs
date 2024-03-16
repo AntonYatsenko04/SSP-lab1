@@ -14,12 +14,13 @@ namespace list
         private int buffersize = 8192;
         private string path;
         private long fileLength;
+        
 
         private long _currentStreamPosition => buffersize * (readerModel.CurrentPageNumber - 1);
 
         
 
-        private void readPage()
+        public override void readPage()
         {
             try
             {
@@ -36,10 +37,33 @@ namespace list
                     {
                         bs.Position = _currentStreamPosition;
                         string line;
+                        int symbolNumber;
                         List<string> lines = new List<string>();
+                        var stringBuilder = new StringBuilder();
+                        // while ((symbolNumber = sr.Read()) != -1 && bs.Position <= _currentStreamPosition + buffersize)
+                        // {
+                        //     Encoding windows1251 = Encoding.GetEncoding("windows-1251");
+                        //
+                        //     // Преобразуем значение типа int в байтовый массив
+                        //     byte[] bytes = BitConverter.GetBytes(symbolNumber);
+                        //
+                        //     string symbol = windows1251.GetString(bytes);
+                        //     stringBuilder.Append(symbol);
+                        // }
+                        //readerModel.LinesToRead=(stringBuilder.ToString());
+                        bool isFirstLine = true;
                         while ((line = sr.ReadLine()) != null && bs.Position <= _currentStreamPosition + buffersize)
+                        {
+                            if (isFirstLine)
+                            {
+                                isFirstLine = false;
+                                continue;
+                            }
                             lines.Add(line);
+                        }
+                             
                         _SetLinesToRead(lines);
+                        
                     }
                 }
             }
@@ -84,6 +108,8 @@ namespace list
             try
             {
                 buffersize = size;
+                SetPageNumber(1);
+                readPage();
             }
             catch
             {
@@ -91,14 +117,7 @@ namespace list
             }
         }
 
-        public override void SetPageNumber(int pageNumber)
-        {
-            if (pageNumber > readerModel.PagesCount||pageNumber<1)
-            {
-                throw new AppException(message:"Неправильно выбран номер страницы");
-            }
-            readerModel.CurrentPageNumber = pageNumber;
-        }
+        
         private void _SetLinesToRead(List<string> lines)
         {
             var stringBuilder = new StringBuilder();
@@ -108,6 +127,24 @@ namespace list
             }
             readerModel.LinesToRead = stringBuilder.ToString();
         }
+        
+        public override void SetPageNumber(int pageNumber)
+        {
+            try
+            {
+                if (pageNumber > readerModel.PagesCount || pageNumber < 1)
+                {
+                    throw new AppException(message: "Неправильно выбран номер страницы");
+                }
+
+                readerModel.CurrentPageNumber = pageNumber;
+                // readPage();
+            }
+            catch
+            {
+                throw new AppException("Невозможно установить номер страницы");
+            }
+        }
         public override void GoToNextPage()
         {
             try
@@ -115,7 +152,7 @@ namespace list
                 if (readerModel.CurrentPageNumber >= readerModel.PagesCount)
                     return;
                 readerModel.CurrentPageNumber++;
-                readPage();
+                // readPage();
             }
             catch
             {
@@ -130,7 +167,7 @@ namespace list
                 if (readerModel.CurrentPageNumber <= 1)
                     return;
                 readerModel.CurrentPageNumber--;
-                readPage();
+                // readPage();
             }
             catch
             {
