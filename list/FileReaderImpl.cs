@@ -74,7 +74,7 @@ namespace list
             }
             catch (Exception e)
             {
-                throw new AppException("Не получилось открыть файл");
+                throw new AppException(ErrorMessages.impossibleToReadFile);
             }
         }
 

@@ -67,7 +67,7 @@ namespace list
             }
             catch (AppException exception)
             {
-                handleException(exception.message);
+                //handleException(exception.message);
             }
         }
 
@@ -102,31 +102,36 @@ namespace list
         private void pageNumberTextBox_TextChanged(object sender, EventArgs e)
         {
             int prevPageNumber = fileReader.readerModel.CurrentPageNumber;
-            
+
             try
             {
-                
-            
                 if (isInit)
                 {
-            
+
                     if (!Regex.IsMatch(pageNumberTextBox.Text, @"^\d+$"))
                     {
-            
-                        pageNumberTextBox.Text = fileReader.readerModel.CurrentPageNumber.ToString();
+                        pageNumberTextBox.Text = prevPageNumber.ToString();
                     }
                     else
                     {
+                        
                         if (fileReader.hasAccessToFile())
                         {
-                            fileReader.SetPageNumber(int.Parse(pageNumberTextBox.Text));
+                            try
+                            {
+                                fileReader.SetPageNumber(int.Parse(pageNumberTextBox.Text));
+                            }
+                            catch (Exception exception)
+                            {
+                                pageNumberTextBox.Text = prevPageNumber.ToString();
+                            }
                             fileReader.readPage();
                         }
                         else
                         {
-                            throw new AppException();
+                            handleException(ErrorMessages.impossibleToReadFile);
                         }
-                        
+
                     }
                 }
                 else
@@ -136,7 +141,14 @@ namespace list
             }
             catch (AppException exception)
             {
-                pageNumberTextBox.Text = prevPageNumber.ToString();
+                
+                    handleException(ErrorMessages.impossibleToReadFile);
+                
+                
+            }
+            catch (Exception exception)
+            {
+                handleException(ErrorMessages.impossibleToReadFile);
             }
             
         }
@@ -175,7 +187,7 @@ namespace list
             IncreaseFontSizeToolStripButton.Enabled = false;
             decreaseFontSizeToolTipButton.Enabled = false;
             linesNumberDropDown.Enabled = false;
-            
+            isInit = false;
         }
 
         private void handleException(string errorMessage)
