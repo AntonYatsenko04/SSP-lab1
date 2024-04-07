@@ -11,7 +11,6 @@ namespace list
 {
     internal class FileReaderImpl : IFileReader
     {
-        private byte[] _fileHash;
         private int buffersize = 8192;
         private string path;
         private long fileLength;
@@ -38,9 +37,9 @@ namespace list
                     {
                         bs.Position = _currentStreamPosition;
                         string line;
-                        int symbolNumber;
+                       
                         List<string> lines = new List<string>();
-                        var stringBuilder = new StringBuilder();
+                        
                         // while ((symbolNumber = sr.Read()) != -1 && bs.Position <= _currentStreamPosition + buffersize)
                         // {
                         //     Encoding windows1251 = Encoding.GetEncoding("windows-1251");
@@ -192,7 +191,6 @@ namespace list
             {
                 throw new AppException(ErrorMessages.impossibleToDecreasePageNumber);
             }
-            
         }
     }
 }

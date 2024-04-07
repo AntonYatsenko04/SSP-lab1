@@ -92,28 +92,43 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppException.cs" />
     <Compile Include="CurrentUserSecurity.cs" />
     <Compile Include="ErrorMessages.cs" />
+    <Compile Include="Exceptions\AppException.cs" />
+    <Compile Include="Exceptions\NoAccessPermission.cs" />
+    <Compile Include="Exceptions\UnableOpenFileException.cs" />
     <Compile Include="FileReaderImpl.cs" />
-    <Compile Include="ILibraryView.cs" />
-    <Compile Include="LibraryException.cs" />
-    <Compile Include="LibraryItemEntity.cs" />
-    <Compile Include="LibraryModel.cs" />
-    <Compile Include="LibraryPresenter.cs" />
-    <Compile Include="ReaderModel.cs" />
-    <Compile Include="FileReader.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="FileReader\FileInfoEntity.cs" />
+    <Compile Include="FileReader\FileReaderModel.cs" />
+    <Compile Include="FileReader\FileReaderPresenter.cs" />
+    <Compile Include="FileReader\FileReaderView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="FileReader\FileReaderView.Designer.cs">
+      <DependentUpon>FileReaderView.cs</DependentUpon>
     </Compile>
+    <Compile Include="FileReader\IFileReaderView.cs" />
+    <Compile Include="Library\ILibraryView.cs" />
+    <Compile Include="Library\LibraryException.cs" />
+    <Compile Include="Library\LibraryItemEntity.cs" />
+    <Compile Include="Library\LibraryModel.cs" />
+    <Compile Include="Library\LibraryPresenter.cs" />
+    <Compile Include="Library\LibraryView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Library\LibraryView.Designer.cs">
+      <DependentUpon>LibraryView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReaderModel.cs" />
+    <Compile Include="FileReader.cs" />
     <Compile Include="IFileReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="FileReader\FileReaderView.resx">
+      <DependentUpon>FileReaderView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Library\LibraryView.resx">
+      <DependentUpon>LibraryView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

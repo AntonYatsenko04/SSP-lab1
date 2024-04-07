@@ -5,21 +5,22 @@ using System.Windows.Forms;
 
 namespace list
 {
-    public partial class Form1 : Form
+    public partial class FileReaderView : Form, IFileReaderView
     {
+        private readonly FileReaderPresenter _fileReaderPresenter;
         private readonly IFileReader fileReader = new FileReaderImpl();
         private readonly string fileSystemErrorMsg = "Проблемы файловой системы";
         private int currentPage = 1;
-        private FileReader fReader;
         private bool isDisabled = true;
         private int maxPages = 1;
         private bool pageButtonsDisabled = false;
         private bool isInit { get; set; } = false;
 
-        public Form1()
-        { 
+        public FileReaderView()
+        {
+            _fileReaderPresenter = new FileReaderPresenter(this, new FileReaderModel());
            InitializeComponent();
-           InitializeBindings();
+           //InitializeBindings();
            openFileDialog1.Filter = "Text files(*.txt)|*.txt";
            this.MinimumSize = new Size(800, 600);
         }
@@ -37,9 +38,9 @@ namespace list
                 formattingEnabled: false);
 
 
-            pageNumberTextBox.DataBindings.Add(currentPageNumber);
+            _pageNumberTextBox.DataBindings.Add(currentPageNumber);
             AllPagesCountLabel.DataBindings.Add(pageCountToLabel);
-            mainTextWindow.DataBindings.Add(currentText);
+            _mainTextWindow.DataBindings.Add(currentText);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -49,8 +50,7 @@ namespace list
         private void OpenFileButton_Click1(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.Cancel) return;
-
-            // получаем выбранный файл
+            
             var filename = openFileDialog1.FileName;
             if (ReadFromEndUntilDot(filename) != "txt")
             {
@@ -108,9 +108,9 @@ namespace list
                 if (isInit)
                 {
 
-                    if (!Regex.IsMatch(pageNumberTextBox.Text, @"^\d+$"))
+                    if (!Regex.IsMatch(_pageNumberTextBox.Text, @"^\d+$"))
                     {
-                        pageNumberTextBox.Text = prevPageNumber.ToString();
+                        _pageNumberTextBox.Text = prevPageNumber.ToString();
                     }
                     else
                     {
@@ -119,11 +119,11 @@ namespace list
                         {
                             try
                             {
-                                fileReader.SetPageNumber(int.Parse(pageNumberTextBox.Text));
+                                fileReader.SetPageNumber(int.Parse(_pageNumberTextBox.Text));
                             }
                             catch (Exception exception)
                             {
-                                pageNumberTextBox.Text = prevPageNumber.ToString();
+                                _pageNumberTextBox.Text = prevPageNumber.ToString();
                             }
                             fileReader.readPage();
                         }
@@ -172,7 +172,7 @@ namespace list
         {
             NextPageButton.Enabled = true;
             PreviousPageButton.Enabled = true;
-            pageNumberTextBox.Enabled = true;
+            _pageNumberTextBox.Enabled = true;
             IncreaseFontSizeToolStripButton.Enabled = true;
             decreaseFontSizeToolTipButton.Enabled = true;
             linesNumberDropDown.Enabled = true;
@@ -183,7 +183,7 @@ namespace list
         {
             NextPageButton.Enabled = false;
             PreviousPageButton.Enabled = false;
-            pageNumberTextBox.Enabled = false;
+            _pageNumberTextBox.Enabled = false;
             IncreaseFontSizeToolStripButton.Enabled = false;
             decreaseFontSizeToolTipButton.Enabled = false;
             linesNumberDropDown.Enabled = false;
@@ -216,16 +216,38 @@ namespace list
 
         private void IncreaseFontSizeButton_Click(object sender, EventArgs e)
         {
-            if (mainTextWindow.Font.Size < 50)
-                mainTextWindow.Font = new Font(mainTextWindow.Font.FontFamily, mainTextWindow.Font.Size + 1);
+            if (_mainTextWindow.Font.Size < 50)
+                _mainTextWindow.Font = new Font(_mainTextWindow.Font.FontFamily, _mainTextWindow.Font.Size + 1);
         }
 
         private void decreaseFontSizeToolStripButton_Click(object sender, EventArgs e)
         {
-            if (mainTextWindow.Font.Size > 5)
-                mainTextWindow.Font = new Font(mainTextWindow.Font.FontFamily, mainTextWindow.Font.Size - 1);
+            if (_mainTextWindow.Font.Size > 5)
+                _mainTextWindow.Font = new Font(_mainTextWindow.Font.FontFamily, _mainTextWindow.Font.Size - 1);
         }
 
-        
+
+        public void SetReaderContent(string content)
+        {
+            if (content != null)
+            {
+                _mainTextWindow.Text = content; 
+            }
+        }
+
+        public void SetPageNumber(int pageNumber)
+        {
+            _pageNumberTextBox.Text = pageNumber.ToString();
+        }
+
+        public void ShowErrorDialog(string message)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetPagesCount(int pagesCount)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
