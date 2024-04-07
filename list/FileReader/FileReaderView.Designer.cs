@@ -180,14 +180,13 @@
             // 
             // _pageNumberTextBox
             // 
-            this._pageNumberTextBox.Cursor = System.Windows.Forms.Cursors.WaitCursor;
+            this._pageNumberTextBox.Cursor = System.Windows.Forms.Cursors.Arrow;
             this._pageNumberTextBox.Enabled = false;
             this._pageNumberTextBox.Location = new System.Drawing.Point(164, 36);
             this._pageNumberTextBox.Margin = new System.Windows.Forms.Padding(4);
             this._pageNumberTextBox.Name = "_pageNumberTextBox";
             this._pageNumberTextBox.Size = new System.Drawing.Size(177, 22);
             this._pageNumberTextBox.TabIndex = 9;
-            this._pageNumberTextBox.UseWaitCursor = true;
             this._pageNumberTextBox.TextChanged += new System.EventHandler(this.pageNumberTextBox_TextChanged);
             // 
             // toolStripComboBox1

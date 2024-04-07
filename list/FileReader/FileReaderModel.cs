@@ -17,8 +17,16 @@ namespace list
             {
                 if (_currentUserSecurity.HasAccess(new FileInfo(path), FileSystemRights.Read))
                 {
-                    FileStream fileStream = File.OpenRead(path);
-                    return fileStream;
+                    if (_readFromEndUntilDot(path) == "txt")
+                    {
+                        FileStream fileStream = File.OpenRead(path);
+                        return fileStream; 
+                    }
+                    else
+                    {
+                        throw new AppException();
+                    }
+                    
                 }
                 else
                 {
@@ -61,6 +69,18 @@ namespace list
             {
                 throw new LibraryException();
             }
+        }
+        
+        private  string _readFromEndUntilDot(string input)
+        {
+            var dotIndex = input.LastIndexOf('.');
+            if (dotIndex != -1)
+            {
+                var result = input.Substring(dotIndex + 1);
+                return result;
+            }
+
+            return string.Empty;
         }
     }
 }

@@ -73,7 +73,7 @@ namespace list
             }
             catch (Exception e)
             {
-                throw new AppException(ErrorMessages.impossibleToReadFile);
+                throw new AppException(ErrorMessages.ImpossibleToReadFile);
             }
         }
 
@@ -102,7 +102,7 @@ namespace list
             catch (Exception e)
             {
                 e.ToString();
-                throw new AppException(ErrorMessages.impossibleToReadFile);
+                throw new AppException(ErrorMessages.ImpossibleToReadFile);
             }
 
             
@@ -132,7 +132,7 @@ namespace list
             }
             catch
             {
-                throw new AppException(ErrorMessages.impossibleToSetSize); 
+                throw new AppException(ErrorMessages.ImpossibleToSetSize); 
             }
         }
 
@@ -153,14 +153,14 @@ namespace list
             {
                 if (pageNumber > readerModel.PagesCount || pageNumber < 1)
                 {
-                    throw new AppException(message: ErrorMessages.wrongPageNumber);
+                    throw new AppException(message: ErrorMessages.WrongPageNumber);
                 }
 
                 readerModel.CurrentPageNumber = pageNumber;
             }
             catch
             {
-                throw new AppException(ErrorMessages.impossibleToSetPageNumber);
+                throw new AppException(ErrorMessages.ImpossibleToSetPageNumber);
             }
         }
         public override void GoToNextPage()
@@ -174,7 +174,7 @@ namespace list
             }
             catch
             {
-                throw new AppException(ErrorMessages.impossibleToIncreasePageNumber);
+                throw new AppException(ErrorMessages.ImpossibleToIncreasePageNumber);
             }
         }
 
@@ -189,7 +189,7 @@ namespace list
             }
             catch
             {
-                throw new AppException(ErrorMessages.impossibleToDecreasePageNumber);
+                throw new AppException(ErrorMessages.ImpossibleToDecreasePageNumber);
             }
         }
     }

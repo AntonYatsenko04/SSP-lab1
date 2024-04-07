@@ -44,7 +44,7 @@ namespace list
             }
             catch (Exception e)
             {
-                _fileReaderView.ShowErrorDialog(ErrorMessages.impossibleToReadFile);
+                _fileReaderView.ShowErrorDialog(ErrorMessages.ImpossibleToReadFile);
             }
         }
 
@@ -77,13 +77,13 @@ namespace list
                             lines.Add(line);
                         }
 
-                        _fileReaderView.SetReaderContent(string.Join("\n", lines));
+                        _fileReaderView.SetReaderContent(string.Join(Environment.NewLine, lines));
                     }
                 }
             }
             catch (Exception e)
             {
-                _fileReaderView.ShowErrorDialog(ErrorMessages.impossibleToSetPageNumber);
+                _fileReaderView.ShowErrorDialog(ErrorMessages.ImpossibleToSetPageNumber);
             }
         }
 
@@ -94,7 +94,7 @@ namespace list
                 FileStream fileStream = _fileReaderModel.OpenFile(_filePath);
                 int pagesCount = GetPagesCount(fileStream);
 
-                if (_currentPageNumber < pagesCount && _currentPageNumber >= 0)
+                if (_currentPageNumber < pagesCount && _currentPageNumber > 0)
                 {
                     _currentPageNumber++;
                     ReadPage(fileStream);
@@ -104,7 +104,7 @@ namespace list
             }
             catch (Exception e)
             {
-                _fileReaderView.ShowErrorDialog(ErrorMessages.impossibleToIncreasePageNumber);
+                _fileReaderView.ShowErrorDialog(ErrorMessages.ImpossibleToIncreasePageNumber);
             }
         }
 
@@ -115,7 +115,7 @@ namespace list
                 FileStream fileStream = _fileReaderModel.OpenFile(_filePath);
                 int pagesCount = GetPagesCount(fileStream);
 
-                if (_currentPageNumber < pagesCount && _currentPageNumber >= 0)
+                if (_currentPageNumber <= pagesCount && _currentPageNumber >1 )
                 {
                     _currentPageNumber--;
                     ReadPage(fileStream);
@@ -125,7 +125,7 @@ namespace list
             }
             catch (Exception e)
             {
-                _fileReaderView.ShowErrorDialog(ErrorMessages.impossibleToDecreasePageNumber);
+                _fileReaderView.ShowErrorDialog(ErrorMessages.ImpossibleToDecreasePageNumber);
             }
         }
 
@@ -142,7 +142,7 @@ namespace list
                 FileStream fileStream = _fileReaderModel.OpenFile(_filePath);
                 int pagesCount = GetPagesCount(fileStream);
 
-                if (_currentPageNumber < pagesCount && _currentPageNumber >= 0)
+                if (pageNumber <= pagesCount && pageNumber > 0)
                 {
                     _currentPageNumber = pageNumber;
                     ReadPage(fileStream);
@@ -152,7 +152,7 @@ namespace list
             }
             catch (Exception e)
             {
-                _fileReaderView.ShowErrorDialog(ErrorMessages.impossibleToSetPageNumber);
+                _fileReaderView.ShowErrorDialog(ErrorMessages.ImpossibleToSetPageNumber);
             }
         }
 
@@ -166,7 +166,7 @@ namespace list
         {
             int oldBufferSize = _bufferSize;
             _bufferSize = bufferSize;
-            int newPageNumber = _bufferSize * _currentPageNumber / oldBufferSize;
+            int newPageNumber = oldBufferSize * _currentPageNumber / _bufferSize;
             GoToPage(newPageNumber.ToString());
         }
     }

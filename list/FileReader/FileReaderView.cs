@@ -8,14 +8,7 @@ namespace list
     public partial class FileReaderView : Form, IFileReaderView
     {
         private readonly FileReaderPresenter _fileReaderPresenter;
-        private readonly IFileReader fileReader = new FileReaderImpl();
-        private readonly string fileSystemErrorMsg = "Проблемы файловой системы";
-        private int currentPage = 1;
-        private bool isDisabled = true;
-        private int maxPages = 1;
-        private bool pageButtonsDisabled = false;
-        private bool isInit { get; set; } = false;
-
+        
         public FileReaderView()
         {
             _fileReaderPresenter = new FileReaderPresenter(this, new FileReaderModel());
@@ -35,8 +28,7 @@ namespace list
             var fileName = openFileDialog1.FileName;
             _fileReaderPresenter.OpenFile(fileName);
         }
-
-
+        
         private void previousPageButton_Click(object sender, EventArgs e)
         {
             _fileReaderPresenter.GoToPreviousPage();
@@ -47,26 +39,17 @@ namespace list
             _fileReaderPresenter.GoToNextPage();
         }
 
-
         private void pageNumberTextBox_TextChanged(object sender, EventArgs e)
         {
             _fileReaderPresenter.GoToPage(_pageNumberTextBox.Text);
         }
-    
-
-
+        
         private void stringNumComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             _fileReaderPresenter.SetBufferSize(int.Parse(stringNumComboBox.Text));
         }
 
-        private void updateForm()
-        {
-            
-           
-        }
-
-        private void resetForm()
+        private void ResetForm()
         {
             NextPageButton.Enabled = false;
             PreviousPageButton.Enabled = false;
@@ -74,32 +57,9 @@ namespace list
             IncreaseFontSizeToolStripButton.Enabled = false;
             decreaseFontSizeToolTipButton.Enabled = false;
             linesNumberDropDown.Enabled = false;
-            isInit = false;
         }
-
-        private void handleException(string errorMessage)
-        {
-            resetForm();
-            MessageBox.Show(
-                text: errorMessage,
-                caption: "Произошла ошибка",
-                buttons: MessageBoxButtons.OK,
-                icon: MessageBoxIcon.Error,
-                defaultButton: MessageBoxDefaultButton.Button1,
-                options: MessageBoxOptions.DefaultDesktopOnly);
-        }
-
-        public static string ReadFromEndUntilDot(string input)
-        {
-            var dotIndex = input.LastIndexOf('.');
-            if (dotIndex != -1)
-            {
-                var result = input.Substring(dotIndex + 1);
-                return result;
-            }
-
-            return string.Empty;
-        }
+        
+        
 
         private void IncreaseFontSizeButton_Click(object sender, EventArgs e)
         {
@@ -129,7 +89,7 @@ namespace list
 
         public void ShowErrorDialog(string message)
         {
-            resetForm();
+            ResetForm();
             MessageBox.Show(
                 text: message,
                 caption: "Произошла ошибка",
