@@ -20,27 +20,8 @@ namespace list
         {
             _fileReaderPresenter = new FileReaderPresenter(this, new FileReaderModel());
            InitializeComponent();
-           //InitializeBindings();
            openFileDialog1.Filter = "Text files(*.txt)|*.txt";
            this.MinimumSize = new Size(800, 600);
-        }
-
-        private void InitializeBindings()
-        {
-            var pageCountToLabel = new Binding(propertyName: "Text", dataSource: fileReader.readerModel,
-                dataMember: "PagesCount", dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged,
-                formattingEnabled: false);
-            var currentPageNumber = new Binding(propertyName: "Text", dataSource: fileReader.readerModel,
-                dataMember: "CurrentPageNumber", dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged,
-                formattingEnabled: false);
-            var currentText = new Binding(propertyName: "Text", dataSource: fileReader.readerModel,
-                dataMember: "LinesToRead", dataSourceUpdateMode: DataSourceUpdateMode.OnPropertyChanged,
-                formattingEnabled: false);
-
-
-            _pageNumberTextBox.DataBindings.Add(currentPageNumber);
-            AllPagesCountLabel.DataBindings.Add(pageCountToLabel);
-            _mainTextWindow.DataBindings.Add(currentText);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -51,131 +32,37 @@ namespace list
         {
             if (openFileDialog1.ShowDialog() == DialogResult.Cancel) return;
             
-            var filename = openFileDialog1.FileName;
-            if (ReadFromEndUntilDot(filename) != "txt")
-            {
-                handleException("Неправильно выбран тип файла");
-                return;
-            }
-
-            try
-            {
-                fileReader.InitialiseFileReader(filename);
-                Console.Write(filename);
-                updateForm();
-                isDisabled = false;
-            }
-            catch (AppException exception)
-            {
-                //handleException(exception.message);
-            }
+            var fileName = openFileDialog1.FileName;
+            _fileReaderPresenter.OpenFile(fileName);
         }
 
 
         private void previousPageButton_Click(object sender, EventArgs e)
         {
-            try
-            {
-                fileReader.GoToPreviousPage();
-                fileReader.readPage();
-            }
-            catch (AppException exception)
-            {
-                handleException(exception.message);
-            }
+            _fileReaderPresenter.GoToPreviousPage();
         }
 
         private void nextPageButton_Click(object sender, EventArgs e)
         {
-            try
-            {
-                fileReader.GoToNextPage();
-                fileReader.readPage();
-            }
-            catch (AppException exception)
-            {
-                handleException(exception.message);
-            }
+            _fileReaderPresenter.GoToNextPage();
         }
 
 
         private void pageNumberTextBox_TextChanged(object sender, EventArgs e)
         {
-            int prevPageNumber = fileReader.readerModel.CurrentPageNumber;
-
-            try
-            {
-                if (isInit)
-                {
-
-                    if (!Regex.IsMatch(_pageNumberTextBox.Text, @"^\d+$"))
-                    {
-                        _pageNumberTextBox.Text = prevPageNumber.ToString();
-                    }
-                    else
-                    {
-                        
-                        if (fileReader.hasAccessToFile())
-                        {
-                            try
-                            {
-                                fileReader.SetPageNumber(int.Parse(_pageNumberTextBox.Text));
-                            }
-                            catch (Exception exception)
-                            {
-                                _pageNumberTextBox.Text = prevPageNumber.ToString();
-                            }
-                            fileReader.readPage();
-                        }
-                        else
-                        {
-                            handleException(ErrorMessages.impossibleToReadFile);
-                        }
-
-                    }
-                }
-                else
-                {
-                    isInit = true;
-                }
-            }
-            catch (AppException exception)
-            {
-                
-                    handleException(ErrorMessages.impossibleToReadFile);
-                
-                
-            }
-            catch (Exception exception)
-            {
-                handleException(ErrorMessages.impossibleToReadFile);
-            }
-            
+            _fileReaderPresenter.GoToPage(_pageNumberTextBox.Text);
         }
     
 
 
-    private void stringNumComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void stringNumComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            try
-            {
-                int newLinesCount = int.Parse(stringNumComboBox.SelectedItem.ToString());
-                fileReader.SetBufferSize(newLinesCount);
-            }
-            catch (AppException exception)
-            {
-                handleException(exception.message);
-            }
+            _fileReaderPresenter.SetBufferSize(int.Parse(stringNumComboBox.Text));
         }
 
         private void updateForm()
         {
-            NextPageButton.Enabled = true;
-            PreviousPageButton.Enabled = true;
-            _pageNumberTextBox.Enabled = true;
-            IncreaseFontSizeToolStripButton.Enabled = true;
-            decreaseFontSizeToolTipButton.Enabled = true;
-            linesNumberDropDown.Enabled = true;
+            
            
         }
 
@@ -242,12 +129,29 @@ namespace list
 
         public void ShowErrorDialog(string message)
         {
-            throw new NotImplementedException();
+            resetForm();
+            MessageBox.Show(
+                text: message,
+                caption: "Произошла ошибка",
+                buttons: MessageBoxButtons.OK,
+                icon: MessageBoxIcon.Error,
+                defaultButton: MessageBoxDefaultButton.Button1,
+                options: MessageBoxOptions.DefaultDesktopOnly);
         }
 
         public void SetPagesCount(int pagesCount)
         {
-            throw new NotImplementedException();
+            _allPagesCountLabel.Text = pagesCount.ToString();
+        }
+
+        public void SetFormActive()
+        {
+            NextPageButton.Enabled = true;
+            PreviousPageButton.Enabled = true;
+            _pageNumberTextBox.Enabled = true;
+            IncreaseFontSizeToolStripButton.Enabled = true;
+            decreaseFontSizeToolTipButton.Enabled = true;
+            linesNumberDropDown.Enabled = true;
         }
     }
 }

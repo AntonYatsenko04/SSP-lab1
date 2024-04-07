@@ -9,6 +9,7 @@
         void ShowErrorDialog(string message);
 
         void SetPagesCount(int pagesCount);
+        void SetFormActive();
         
     }
 }

@@ -40,7 +40,7 @@
             this.PreviousPageButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.AllPagesCountLabel = new System.Windows.Forms.Label();
+            this._allPagesCountLabel = new System.Windows.Forms.Label();
             this._pageNumberTextBox = new System.Windows.Forms.TextBox();
             this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
             this.toolStrip1.SuspendLayout();
@@ -168,18 +168,19 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "из";
             // 
-            // AllPagesCountLabel
+            // _allPagesCountLabel
             // 
-            this.AllPagesCountLabel.AutoSize = true;
-            this.AllPagesCountLabel.Location = new System.Drawing.Point(384, 39);
-            this.AllPagesCountLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.AllPagesCountLabel.Name = "AllPagesCountLabel";
-            this.AllPagesCountLabel.Size = new System.Drawing.Size(15, 16);
-            this.AllPagesCountLabel.TabIndex = 8;
-            this.AllPagesCountLabel.Text = "0";
+            this._allPagesCountLabel.AutoSize = true;
+            this._allPagesCountLabel.Location = new System.Drawing.Point(384, 39);
+            this._allPagesCountLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this._allPagesCountLabel.Name = "_allPagesCountLabel";
+            this._allPagesCountLabel.Size = new System.Drawing.Size(15, 16);
+            this._allPagesCountLabel.TabIndex = 8;
+            this._allPagesCountLabel.Text = "0";
             // 
             // _pageNumberTextBox
             // 
+            this._pageNumberTextBox.Cursor = System.Windows.Forms.Cursors.WaitCursor;
             this._pageNumberTextBox.Enabled = false;
             this._pageNumberTextBox.Location = new System.Drawing.Point(164, 36);
             this._pageNumberTextBox.Margin = new System.Windows.Forms.Padding(4);
@@ -202,7 +203,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1112, 609);
             this.Controls.Add(this._pageNumberTextBox);
-            this.Controls.Add(this.AllPagesCountLabel);
+            this.Controls.Add(this._allPagesCountLabel);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.PreviousPageButton);
@@ -232,7 +233,7 @@
         private System.Windows.Forms.Button PreviousPageButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label AllPagesCountLabel;
+        private System.Windows.Forms.Label _allPagesCountLabel;
         private System.Windows.Forms.TextBox _pageNumberTextBox;
         private System.Windows.Forms.ToolStripDropDownButton linesNumberDropDown;
         private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;

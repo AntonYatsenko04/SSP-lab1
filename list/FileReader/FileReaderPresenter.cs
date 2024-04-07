@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace list
 {
@@ -38,6 +40,7 @@ namespace list
                 _filePath = filePath;
                 _fileReaderView.SetPageNumber(_currentPageNumber);
                 _fileReaderView.SetPagesCount(pagesCount);
+                _fileReaderView.SetFormActive();
             }
             catch (Exception e)
             {
@@ -126,10 +129,16 @@ namespace list
             }
         }
 
-        public void GoToPage(int pageNumber)
+        public void GoToPage(string pageNumberString)
         {
+            if (!Regex.IsMatch(pageNumberString, @"^\d+$"))
+            {
+                _fileReaderView.SetPageNumber(_currentPageNumber);
+                return;
+            }
             try
             {
+                int pageNumber = int.Parse(pageNumberString);
                 FileStream fileStream = _fileReaderModel.OpenFile(_filePath);
                 int pagesCount = GetPagesCount(fileStream);
 
@@ -151,6 +160,14 @@ namespace list
         {
             int pagesCount = (int)fileStream.Length / _bufferSize + 1;
             return pagesCount;
+        }
+
+        public void SetBufferSize(int bufferSize)
+        {
+            int oldBufferSize = _bufferSize;
+            _bufferSize = bufferSize;
+            int newPageNumber = _bufferSize * _currentPageNumber / oldBufferSize;
+            GoToPage(newPageNumber.ToString());
         }
     }
 }
