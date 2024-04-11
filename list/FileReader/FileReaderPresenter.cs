@@ -20,6 +20,8 @@ namespace list
 
         private int _bufferSize = 8192;
 
+        private float _fontSize;
+
         public FileReaderPresenter(IFileReaderView fileReaderView, FileReaderModel fileReaderModel)
         {
             _fileReaderView = fileReaderView ?? throw new ArgumentNullException(nameof(fileReaderView));
@@ -41,6 +43,7 @@ namespace list
                 _fileReaderView.SetPageNumber(_currentPageNumber);
                 _fileReaderView.SetPagesCount(pagesCount);
                 _fileReaderView.SetFormActive();
+                
             }
             catch (Exception e)
             {
@@ -168,6 +171,16 @@ namespace list
             _bufferSize = bufferSize;
             int newPageNumber = oldBufferSize * _currentPageNumber / _bufferSize;
             GoToPage(newPageNumber.ToString());
+        }
+
+        public void SetFontSize(float fontSize)
+        {
+            _fontSize = fontSize;
+        }
+
+        private void _updateFile()
+        {
+            
         }
     }
 }

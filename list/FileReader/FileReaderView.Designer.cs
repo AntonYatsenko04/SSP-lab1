@@ -43,16 +43,16 @@
             this._allPagesCountLabel = new System.Windows.Forms.Label();
             this._pageNumberTextBox = new System.Windows.Forms.TextBox();
             this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.LibraryTextBox = new System.Windows.Forms.ListBox();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // OpenFileButton
             // 
             this.OpenFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.OpenFileButton.Location = new System.Drawing.Point(960, 33);
-            this.OpenFileButton.Margin = new System.Windows.Forms.Padding(4);
+            this.OpenFileButton.Location = new System.Drawing.Point(646, 56);
             this.OpenFileButton.Name = "OpenFileButton";
-            this.OpenFileButton.Size = new System.Drawing.Size(136, 28);
+            this.OpenFileButton.Size = new System.Drawing.Size(102, 23);
             this.OpenFileButton.TabIndex = 0;
             this.OpenFileButton.Text = "Открыть файл";
             this.OpenFileButton.UseVisualStyleBackColor = true;
@@ -61,13 +61,12 @@
             // _mainTextWindow
             // 
             this._mainTextWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
-            this._mainTextWindow.Location = new System.Drawing.Point(16, 69);
-            this._mainTextWindow.Margin = new System.Windows.Forms.Padding(4);
+            this._mainTextWindow.Location = new System.Drawing.Point(12, 85);
             this._mainTextWindow.Multiline = true;
             this._mainTextWindow.Name = "_mainTextWindow";
             this._mainTextWindow.ReadOnly = true;
             this._mainTextWindow.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this._mainTextWindow.Size = new System.Drawing.Size(1079, 489);
+            this._mainTextWindow.Size = new System.Drawing.Size(736, 486);
             this._mainTextWindow.TabIndex = 1;
             // 
             // toolStrip1
@@ -76,7 +75,7 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.IncreaseFontSizeToolStripButton, this.decreaseFontSizeToolTipButton, this.linesNumberDropDown });
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1112, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(760, 25);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -122,12 +121,11 @@
             this.NextPageButton.AutoSize = true;
             this.NextPageButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.NextPageButton.Enabled = false;
-            this.NextPageButton.Location = new System.Drawing.Point(909, 566);
-            this.NextPageButton.Margin = new System.Windows.Forms.Padding(4);
-            this.NextPageButton.MaximumSize = new System.Drawing.Size(187, 28);
-            this.NextPageButton.MinimumSize = new System.Drawing.Size(187, 28);
+            this.NextPageButton.Location = new System.Drawing.Point(608, 577);
+            this.NextPageButton.MaximumSize = new System.Drawing.Size(140, 23);
+            this.NextPageButton.MinimumSize = new System.Drawing.Size(140, 23);
             this.NextPageButton.Name = "NextPageButton";
-            this.NextPageButton.Size = new System.Drawing.Size(187, 28);
+            this.NextPageButton.Size = new System.Drawing.Size(140, 23);
             this.NextPageButton.TabIndex = 3;
             this.NextPageButton.Text = "Следующая страница";
             this.NextPageButton.UseVisualStyleBackColor = true;
@@ -139,10 +137,9 @@
             this.PreviousPageButton.AutoSize = true;
             this.PreviousPageButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.PreviousPageButton.Enabled = false;
-            this.PreviousPageButton.Location = new System.Drawing.Point(16, 568);
-            this.PreviousPageButton.Margin = new System.Windows.Forms.Padding(4);
+            this.PreviousPageButton.Location = new System.Drawing.Point(12, 577);
             this.PreviousPageButton.Name = "PreviousPageButton";
-            this.PreviousPageButton.Size = new System.Drawing.Size(166, 26);
+            this.PreviousPageButton.Size = new System.Drawing.Size(133, 23);
             this.PreviousPageButton.TabIndex = 4;
             this.PreviousPageButton.Text = "Предыдущая страница";
             this.PreviousPageButton.UseVisualStyleBackColor = true;
@@ -151,30 +148,27 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 39);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(12, 32);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(132, 16);
+            this.label1.Size = new System.Drawing.Size(105, 13);
             this.label1.TabIndex = 6;
             this.label1.Text = "Текущая страница:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(351, 39);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(263, 32);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(24, 16);
+            this.label2.Size = new System.Drawing.Size(19, 13);
             this.label2.TabIndex = 7;
             this.label2.Text = "из";
             // 
             // _allPagesCountLabel
             // 
             this._allPagesCountLabel.AutoSize = true;
-            this._allPagesCountLabel.Location = new System.Drawing.Point(384, 39);
-            this._allPagesCountLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this._allPagesCountLabel.Location = new System.Drawing.Point(288, 32);
             this._allPagesCountLabel.Name = "_allPagesCountLabel";
-            this._allPagesCountLabel.Size = new System.Drawing.Size(15, 16);
+            this._allPagesCountLabel.Size = new System.Drawing.Size(13, 13);
             this._allPagesCountLabel.TabIndex = 8;
             this._allPagesCountLabel.Text = "0";
             // 
@@ -182,10 +176,9 @@
             // 
             this._pageNumberTextBox.Cursor = System.Windows.Forms.Cursors.Arrow;
             this._pageNumberTextBox.Enabled = false;
-            this._pageNumberTextBox.Location = new System.Drawing.Point(164, 36);
-            this._pageNumberTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this._pageNumberTextBox.Location = new System.Drawing.Point(123, 29);
             this._pageNumberTextBox.Name = "_pageNumberTextBox";
-            this._pageNumberTextBox.Size = new System.Drawing.Size(177, 22);
+            this._pageNumberTextBox.Size = new System.Drawing.Size(134, 20);
             this._pageNumberTextBox.TabIndex = 9;
             this._pageNumberTextBox.TextChanged += new System.EventHandler(this.pageNumberTextBox_TextChanged);
             // 
@@ -196,11 +189,21 @@
             this.toolStripComboBox1.Name = "toolStripComboBox1";
             this.toolStripComboBox1.Size = new System.Drawing.Size(121, 23);
             // 
+            // LibraryTextBox
+            // 
+            this.LibraryTextBox.FormattingEnabled = true;
+            this.LibraryTextBox.Location = new System.Drawing.Point(411, 12);
+            this.LibraryTextBox.Name = "LibraryTextBox";
+            this.LibraryTextBox.Size = new System.Drawing.Size(207, 56);
+            this.LibraryTextBox.TabIndex = 10;
+            this.LibraryTextBox.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            // 
             // FileReaderView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1112, 609);
+            this.ClientSize = new System.Drawing.Size(760, 612);
+            this.Controls.Add(this.LibraryTextBox);
             this.Controls.Add(this._pageNumberTextBox);
             this.Controls.Add(this._allPagesCountLabel);
             this.Controls.Add(this.label2);
@@ -210,7 +213,6 @@
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this._mainTextWindow);
             this.Controls.Add(this.OpenFileButton);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FileReaderView";
             this.Text = "Читатель";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -219,6 +221,8 @@
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        private System.Windows.Forms.ListBox LibraryTextBox;
 
         #endregion
 

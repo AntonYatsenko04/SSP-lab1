@@ -10,6 +10,5 @@
 
         void SetPagesCount(int pagesCount);
         void SetFormActive();
-        
     }
 }

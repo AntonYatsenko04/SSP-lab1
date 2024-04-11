@@ -43,6 +43,33 @@ namespace list
             }
         }
 
+        public List<LibraryItemEntity> UpdateLibrary(LibraryItemEntity newLibraryItemEntity)
+        {
+            try
+            {
+                var libraryEntities = ReadLibraryJson();
+                for (var index = 0; index < libraryEntities.Count; index++)
+                {
+                    var entity = libraryEntities[index];
+                    if (entity.FilePath == newLibraryItemEntity.FilePath)
+                    {
+                        libraryEntities.RemoveAt(index);
+                        libraryEntities.Insert(index, newLibraryItemEntity);
+                        WriteLibraryJson(libraryEntities);
+                        return libraryEntities;
+                    }
+                }
+
+                libraryEntities.Add(newLibraryItemEntity);
+                WriteLibraryJson(libraryEntities);
+                return libraryEntities;
+            }
+            catch (Exception e)
+            {
+                throw new LibraryException();
+            }
+        }
+
         public List<LibraryItemEntity> ReadLibraryJson()
         {
             try

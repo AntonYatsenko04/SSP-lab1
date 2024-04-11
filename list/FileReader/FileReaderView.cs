@@ -64,13 +64,23 @@ namespace list
         private void IncreaseFontSizeButton_Click(object sender, EventArgs e)
         {
             if (_mainTextWindow.Font.Size < 50)
-                _mainTextWindow.Font = new Font(_mainTextWindow.Font.FontFamily, _mainTextWindow.Font.Size + 1);
+            {
+                float newFontSize = _mainTextWindow.Font.Size + 1;
+                _mainTextWindow.Font = new Font(_mainTextWindow.Font.FontFamily, newFontSize);
+                _fileReaderPresenter.SetFontSize(newFontSize);
+            }
+               
         }
 
         private void decreaseFontSizeToolStripButton_Click(object sender, EventArgs e)
         {
+            
             if (_mainTextWindow.Font.Size > 5)
-                _mainTextWindow.Font = new Font(_mainTextWindow.Font.FontFamily, _mainTextWindow.Font.Size - 1);
+            {
+                float newFontSize = _mainTextWindow.Font.Size - 1;
+                _mainTextWindow.Font = new Font(_mainTextWindow.Font.FontFamily, newFontSize);
+                _fileReaderPresenter.SetFontSize(newFontSize);
+            }
         }
 
 
@@ -112,6 +122,11 @@ namespace list
             IncreaseFontSizeToolStripButton.Enabled = true;
             decreaseFontSizeToolTipButton.Enabled = true;
             linesNumberDropDown.Enabled = true;
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
