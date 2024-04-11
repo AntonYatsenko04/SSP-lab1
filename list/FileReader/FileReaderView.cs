@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -65,22 +66,22 @@ namespace list
         {
             if (_mainTextWindow.Font.Size < 50)
             {
-                float newFontSize = _mainTextWindow.Font.Size + 1;
-                _mainTextWindow.Font = new Font(_mainTextWindow.Font.FontFamily, newFontSize);
-                _fileReaderPresenter.SetFontSize(newFontSize);
+                _setFontSize(_mainTextWindow.Font.Size + 1);
             }
-               
         }
 
         private void decreaseFontSizeToolStripButton_Click(object sender, EventArgs e)
         {
-            
             if (_mainTextWindow.Font.Size > 5)
             {
-                float newFontSize = _mainTextWindow.Font.Size - 1;
-                _mainTextWindow.Font = new Font(_mainTextWindow.Font.FontFamily, newFontSize);
-                _fileReaderPresenter.SetFontSize(newFontSize);
+                _setFontSize(_mainTextWindow.Font.Size - 1);
             }
+        }
+
+        private void _setFontSize(float fontSize)
+        {
+            _mainTextWindow.Font = new Font(_mainTextWindow.Font.FontFamily, fontSize);
+            _fileReaderPresenter.SetFontSize(fontSize);
         }
 
 
@@ -122,6 +123,9 @@ namespace list
             IncreaseFontSizeToolStripButton.Enabled = true;
             decreaseFontSizeToolTipButton.Enabled = true;
             linesNumberDropDown.Enabled = true;
+        }
+
+        public void SetLibrary(List<LibraryItemEntity> libraryItemEntitooga
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)

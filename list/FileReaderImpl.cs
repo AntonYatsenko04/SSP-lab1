@@ -101,7 +101,6 @@ namespace list
             }
             catch (Exception e)
             {
-                e.ToString();
                 throw new AppException(ErrorMessages.ImpossibleToReadFile);
             }
 
@@ -113,10 +112,10 @@ namespace list
         {
             try
             {
-                
                 double newPageNumber = buffersize * readerModel.CurrentPageNumber / size;
                 buffersize = (int)size;
                 readerModel.PagesCount = (int)fileLength / buffersize + 1;
+                
                 if (newPageNumber > readerModel.PagesCount)
                 {
                     newPageNumber = readerModel.PagesCount;

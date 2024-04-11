@@ -1,4 +1,6 @@
-﻿namespace list
+﻿using System.Collections.Generic;
+
+namespace list
 {
     public interface IFileReaderView
     {
@@ -10,5 +12,7 @@
 
         void SetPagesCount(int pagesCount);
         void SetFormActive();
+
+        void SetLibrary(List<LibraryItemEntity> libraryItemEntities);
     }
 }
