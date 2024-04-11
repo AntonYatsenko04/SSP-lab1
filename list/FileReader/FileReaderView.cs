@@ -125,7 +125,9 @@ namespace list
             linesNumberDropDown.Enabled = true;
         }
 
-        public void SetLibrary(List<LibraryItemEntity> libraryItemEntitooga
+        public void SetLibrary(List<LibraryItemEntity> libraryItemEntities)
+        {
+            
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
