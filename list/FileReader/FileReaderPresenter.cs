@@ -233,7 +233,7 @@ namespace list
             OpenFile(libraryItemEntity.FilePath);
             GoToPage(libraryItemEntity.PageNumber.ToString());
             SetBufferSize(libraryItemEntity.BufferSize);
-            SetFontSize(libraryItemEntity.FontSize);
+           // SetFontSize(libraryItemEntity.FontSize);
         }
 
         private void _updateFile()

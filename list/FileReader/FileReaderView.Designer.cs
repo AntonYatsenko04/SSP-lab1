@@ -197,6 +197,7 @@
             this._libraryListBox.Name = "_libraryListBox";
             this._libraryListBox.Size = new System.Drawing.Size(176, 56);
             this._libraryListBox.TabIndex = 10;
+            this._libraryListBox.SelectedValueChanged += new System.EventHandler(this._libraryListBox_SelectedValueChanged);
             // 
             // FileReaderView
             // 

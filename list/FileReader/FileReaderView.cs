@@ -9,6 +9,7 @@ namespace list
     public partial class FileReaderView : Form, IFileReaderView
     {
         private readonly FileReaderPresenter _fileReaderPresenter;
+        private readonly List<LibraryItemEntity> _libraryItemEntities = new List<LibraryItemEntity>();
 
         public FileReaderView()
         {
@@ -130,8 +131,10 @@ namespace list
 
         public void SetLibrary(List<LibraryItemEntity> libraryItemEntities)
         {
+            _libraryItemEntities.Clear();
+            _libraryItemEntities.AddRange(libraryItemEntities); 
             _libraryListBox.Items.Clear();
-            foreach (var entity in libraryItemEntities)
+            foreach (var entity in _libraryItemEntities)
             {
                 _addItemToLibrary(entity);
             }
@@ -157,6 +160,12 @@ namespace list
             }
 
             return string.Empty;
+        }
+
+        private void _libraryListBox_SelectedValueChanged(object sender, EventArgs e)
+        {
+            var selected = _libraryItemEntities[_libraryListBox.SelectedIndex];
+            _fileReaderPresenter.OpenLibraryFile(selected);
         }
     }
 }
