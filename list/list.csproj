@@ -97,6 +97,7 @@
     <Compile Include="Exceptions\AppException.cs" />
     <Compile Include="Exceptions\NoAccessPermission.cs" />
     <Compile Include="Exceptions\UnableOpenFileException.cs" />
+    <Compile Include="Exceptions\UpdateFileException.cs" />
     <Compile Include="FileReaderImpl.cs" />
     <Compile Include="FileReader\FileInfoEntity.cs" />
     <Compile Include="FileReader\FileReaderModel.cs" />

@@ -1,9 +1,10 @@
-﻿namespace list
+﻿using System.Text.Json;
+namespace list
 {
     public class FileInfoEntity
     {
-        public readonly int PagesCount;
-        public readonly int CurrentPageNumber;
+        public  int PagesCount { get; set; }
+        public  int CurrentPageNumber { get; set; }
         
         public FileInfoEntity(int pagesCount, int currentPageNumber)
         {

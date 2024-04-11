@@ -9,13 +9,13 @@ namespace list
     public partial class FileReaderView : Form, IFileReaderView
     {
         private readonly FileReaderPresenter _fileReaderPresenter;
-        
+
         public FileReaderView()
         {
             _fileReaderPresenter = new FileReaderPresenter(this, new FileReaderModel());
-           InitializeComponent();
-           openFileDialog1.Filter = "Text files(*.txt)|*.txt";
-           this.MinimumSize = new Size(800, 600);
+            InitializeComponent();
+            openFileDialog1.Filter = "Text files(*.txt)|*.txt";
+            this.MinimumSize = new Size(800, 600);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -25,11 +25,11 @@ namespace list
         private void OpenFileButton_Click1(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.Cancel) return;
-            
+
             var fileName = openFileDialog1.FileName;
             _fileReaderPresenter.OpenFile(fileName);
         }
-        
+
         private void previousPageButton_Click(object sender, EventArgs e)
         {
             _fileReaderPresenter.GoToPreviousPage();
@@ -44,7 +44,7 @@ namespace list
         {
             _fileReaderPresenter.GoToPage(_pageNumberTextBox.Text);
         }
-        
+
         private void stringNumComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             _fileReaderPresenter.SetBufferSize(int.Parse(stringNumComboBox.Text));
@@ -59,8 +59,7 @@ namespace list
             decreaseFontSizeToolTipButton.Enabled = false;
             linesNumberDropDown.Enabled = false;
         }
-        
-        
+
 
         private void IncreaseFontSizeButton_Click(object sender, EventArgs e)
         {
@@ -89,7 +88,7 @@ namespace list
         {
             if (content != null)
             {
-                _mainTextWindow.Text = content; 
+                _mainTextWindow.Text = content;
             }
         }
 
@@ -98,9 +97,13 @@ namespace list
             _pageNumberTextBox.Text = pageNumber.ToString();
         }
 
-        public void ShowErrorDialog(string message)
+        public void ShowErrorDialog(string message, bool disableForm = true)
         {
-            ResetForm();
+            if (disableForm)
+            {
+                ResetForm();
+            }
+
             MessageBox.Show(
                 text: message,
                 caption: "Произошла ошибка",
@@ -128,20 +131,25 @@ namespace list
         public void SetLibrary(List<LibraryItemEntity> libraryItemEntities)
         {
             _libraryListBox.Items.Clear();
-            foreach(var entity in libraryItemEntities)
+            foreach (var entity in libraryItemEntities)
             {
                 _addItemToLibrary(entity);
             }
+        }
+
+        public void SetFontSize(float fontSize)
+        {
+            _setFontSize(fontSize);
         }
 
         private void _addItemToLibrary(LibraryItemEntity libraryItemEntity)
         {
             _libraryListBox.Items.Add(_readFromEndUntilSlash(libraryItemEntity.FilePath));
         }
-        
-        private  string _readFromEndUntilSlash(string input)
+
+        private string _readFromEndUntilSlash(string input)
         {
-            var dotIndex = input.LastIndexOf('/');
+            var dotIndex = input.LastIndexOf('\\');
             if (dotIndex != -1)
             {
                 var result = input.Substring(dotIndex + 1);

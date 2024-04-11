@@ -8,11 +8,13 @@ namespace list
 
         void SetPageNumber(int pageNumber);
 
-        void ShowErrorDialog(string message);
+        void ShowErrorDialog(string message,bool disableForm = true);
 
         void SetPagesCount(int pagesCount);
         void SetFormActive();
 
         void SetLibrary(List<LibraryItemEntity> libraryItemEntities);
+
+        void SetFontSize(float fontSize);
     }
 }

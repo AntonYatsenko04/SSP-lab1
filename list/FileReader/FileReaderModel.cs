@@ -45,9 +45,17 @@ namespace list
 
         public List<LibraryItemEntity> UpdateLibrary(LibraryItemEntity newLibraryItemEntity)
         {
+            List<LibraryItemEntity> libraryEntities;
             try
             {
-                var libraryEntities = ReadLibraryJson();
+                libraryEntities = ReadLibraryJson();
+            }
+            catch (LibraryException e)
+            {
+                libraryEntities = new List<LibraryItemEntity>();
+            }
+            try
+            {
                 for (var index = 0; index < libraryEntities.Count; index++)
                 {
                     var entity = libraryEntities[index];
@@ -70,7 +78,7 @@ namespace list
             }
         }
 
-        public List<LibraryItemEntity> ReadLibraryJson()
+        private List<LibraryItemEntity> ReadLibraryJson()
         {
             try
             {
@@ -84,11 +92,16 @@ namespace list
             }
         }
 
-        public void WriteLibraryJson(List<LibraryItemEntity> libraryItemEntities)
+        private void WriteLibraryJson(List<LibraryItemEntity> libraryItemEntities)
         {
             try
             {
-                string json = JsonSerializer.Serialize(libraryItemEntities);
+                
+                    
+                    string json = JsonSerializer.Serialize<List<LibraryItemEntity>>(libraryItemEntities);
+                    
+                
+               
 
                 File.WriteAllText(FileName, json);
             }

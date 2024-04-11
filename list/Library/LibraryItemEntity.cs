@@ -4,10 +4,10 @@ namespace list
 {
     public class LibraryItemEntity
     {
-        public readonly int PageNumber;
-        public readonly float FontSize;
-        public readonly int BufferSize;
-        public readonly string FilePath;
+        public int PageNumber { get; set; }
+        public float FontSize { get; set; }
+        public int BufferSize { get; set; }
+        public string FilePath { get; set; }
 
         public LibraryItemEntity(int pageNumber, float fontSize, int bufferSize, string filePath)
         {

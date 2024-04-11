@@ -22,6 +22,8 @@ namespace list
 
         private float _fontSize = 8.25f;
 
+        private bool _fileDisabled = false;
+
         public FileReaderPresenter(IFileReaderView fileReaderView, FileReaderModel fileReaderModel)
         {
             _fileReaderView = fileReaderView ?? throw new ArgumentNullException(nameof(fileReaderView));
@@ -43,6 +45,11 @@ namespace list
                 _fileReaderView.SetPageNumber(_currentPageNumber);
                 _fileReaderView.SetPagesCount(pagesCount);
                 _fileReaderView.SetFormActive();
+                _updateFile();
+            }
+            catch (UpdateFileException e)
+            {
+                _handleFileException();
             }
             catch (Exception e)
             {
@@ -50,7 +57,7 @@ namespace list
             }
         }
 
-        public void ReadPage(FileStream fileStream)
+        private void ReadPage(FileStream fileStream)
         {
             try
             {
@@ -80,8 +87,13 @@ namespace list
                         }
 
                         _fileReaderView.SetReaderContent(string.Join(Environment.NewLine, lines));
+                        _updateFile();
                     }
                 }
+            }
+            catch (UpdateFileException e)
+            {
+                _handleFileException();
             }
             catch (Exception e)
             {
@@ -101,8 +113,13 @@ namespace list
                     _currentPageNumber++;
                     ReadPage(fileStream);
                 }
+                _updateFile();
 
                 _fileReaderView.SetPageNumber(_currentPageNumber);
+            }
+            catch (UpdateFileException e)
+            {
+                _handleFileException();
             }
             catch (Exception e)
             {
@@ -123,7 +140,13 @@ namespace list
                     ReadPage(fileStream);
                 }
 
+                _updateFile();
+                
                 _fileReaderView.SetPageNumber(_currentPageNumber);
+            }
+            catch (UpdateFileException e)
+            {
+                _handleFileException();
             }
             catch (Exception e)
             {
@@ -152,6 +175,11 @@ namespace list
                 }
 
                 _fileReaderView.SetPageNumber(_currentPageNumber);
+                _updateFile();
+            }
+            catch (UpdateFileException e)
+            {
+                _handleFileException();
             }
             catch (Exception e)
             {
@@ -167,19 +195,50 @@ namespace list
 
         public void SetBufferSize(int bufferSize)
         {
+            if (bufferSize % 16 != 0 || bufferSize > 16384 || bufferSize < 4096) return;
+            
             int oldBufferSize = _bufferSize;
             _bufferSize = bufferSize;
             int newPageNumber = oldBufferSize * _currentPageNumber / _bufferSize;
+            try
+            {
+                _updateFile();
+            }
+            catch (UpdateFileException e)
+            {
+                _handleFileException();
+            }
+
             GoToPage(newPageNumber.ToString());
+
+
         }
 
         public void SetFontSize(float fontSize)
         {
             _fontSize = fontSize;
+            _fileReaderView.SetFontSize(_fontSize);
+            try
+            {
+                _updateFile();
+            }
+            catch (UpdateFileException e)
+            {
+                _handleFileException();
+            }
+        }
+
+        public void OpenLibraryFile(LibraryItemEntity libraryItemEntity)
+        {
+            OpenFile(libraryItemEntity.FilePath);
+            GoToPage(libraryItemEntity.PageNumber.ToString());
+            SetBufferSize(libraryItemEntity.BufferSize);
+            SetFontSize(libraryItemEntity.FontSize);
         }
 
         private void _updateFile()
         {
+            if (_fileDisabled) return;
             try
             {
                 var newLibraryEntity = new LibraryItemEntity(pageNumber: _currentPageNumber, fontSize: _fontSize,
@@ -187,11 +246,18 @@ namespace list
 
                 var newLibraryItemEntities = _fileReaderModel.UpdateLibrary(newLibraryEntity);
                 _fileReaderView.SetLibrary(newLibraryItemEntities);
+
+                _fileReaderView.SetLibrary(newLibraryItemEntities);
             }
             catch (Exception e)
             {
-                
+                throw new UpdateFileException();
             }
+        }
+
+        private void _handleFileException()
+        {
+            _fileReaderView.ShowErrorDialog(ErrorMessages.LibraryError, false);
         }
     }
 }
