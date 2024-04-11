@@ -127,12 +127,28 @@ namespace list
 
         public void SetLibrary(List<LibraryItemEntity> libraryItemEntities)
         {
-            
+            _libraryListBox.Items.Clear();
+            foreach(var entity in libraryItemEntities)
+            {
+                _addItemToLibrary(entity);
+            }
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void _addItemToLibrary(LibraryItemEntity libraryItemEntity)
         {
-            throw new System.NotImplementedException();
+            _libraryListBox.Items.Add(_readFromEndUntilSlash(libraryItemEntity.FilePath));
+        }
+        
+        private  string _readFromEndUntilSlash(string input)
+        {
+            var dotIndex = input.LastIndexOf('/');
+            if (dotIndex != -1)
+            {
+                var result = input.Substring(dotIndex + 1);
+                return result;
+            }
+
+            return string.Empty;
         }
     }
 }

@@ -68,6 +68,7 @@
             this._mainTextWindow.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this._mainTextWindow.Size = new System.Drawing.Size(736, 486);
             this._mainTextWindow.TabIndex = 1;
+            this._mainTextWindow.Text = " = ";
             // 
             // toolStrip1
             // 

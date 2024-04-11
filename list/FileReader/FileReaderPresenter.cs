@@ -20,7 +20,7 @@ namespace list
 
         private int _bufferSize = 8192;
 
-        private float _fontSize;
+        private float _fontSize = 8.25f;
 
         public FileReaderPresenter(IFileReaderView fileReaderView, FileReaderModel fileReaderModel)
         {
@@ -43,7 +43,6 @@ namespace list
                 _fileReaderView.SetPageNumber(_currentPageNumber);
                 _fileReaderView.SetPagesCount(pagesCount);
                 _fileReaderView.SetFormActive();
-                
             }
             catch (Exception e)
             {
@@ -118,7 +117,7 @@ namespace list
                 FileStream fileStream = _fileReaderModel.OpenFile(_filePath);
                 int pagesCount = GetPagesCount(fileStream);
 
-                if (_currentPageNumber <= pagesCount && _currentPageNumber >1 )
+                if (_currentPageNumber <= pagesCount && _currentPageNumber > 1)
                 {
                     _currentPageNumber--;
                     ReadPage(fileStream);
@@ -139,6 +138,7 @@ namespace list
                 _fileReaderView.SetPageNumber(_currentPageNumber);
                 return;
             }
+
             try
             {
                 int pageNumber = int.Parse(pageNumberString);
@@ -180,7 +180,18 @@ namespace list
 
         private void _updateFile()
         {
-            
+            try
+            {
+                var newLibraryEntity = new LibraryItemEntity(pageNumber: _currentPageNumber, fontSize: _fontSize,
+                    bufferSize: _bufferSize, filePath: _filePath);
+
+                var newLibraryItemEntities = _fileReaderModel.UpdateLibrary(newLibraryEntity);
+                _fileReaderView.SetLibrary(newLibraryItemEntities);
+            }
+            catch (Exception e)
+            {
+                
+            }
         }
     }
 }
