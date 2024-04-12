@@ -20,13 +20,12 @@ namespace list
                     if (_readFromEndUntilDot(path) == "txt")
                     {
                         FileStream fileStream = File.OpenRead(path);
-                        return fileStream; 
+                        return fileStream;
                     }
                     else
                     {
                         throw new AppException();
                     }
-                    
                 }
                 else
                 {
@@ -54,6 +53,7 @@ namespace list
             {
                 libraryEntities = new List<LibraryItemEntity>();
             }
+
             try
             {
                 for (var index = 0; index < libraryEntities.Count; index++)
@@ -78,7 +78,38 @@ namespace list
             }
         }
 
-        private List<LibraryItemEntity> ReadLibraryJson()
+        public void DeleteLibraryEntity(String filepath)
+        {
+            List<LibraryItemEntity> libraryEntities;
+            try
+            {
+                libraryEntities = ReadLibraryJson();
+            }
+            catch (LibraryException e)
+            {
+                libraryEntities = new List<LibraryItemEntity>();
+            }
+
+            try
+            {
+                for (var index = 0; index < libraryEntities.Count; index++)
+                {
+                    var entity = libraryEntities[index];
+                    if (entity.FilePath == filepath)
+                    {
+                        libraryEntities.RemoveAt(index);
+                        WriteLibraryJson(libraryEntities);
+                        return;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new LibraryException();
+            }
+        }
+
+        public List<LibraryItemEntity> ReadLibraryJson()
         {
             try
             {
@@ -96,13 +127,11 @@ namespace list
         {
             try
             {
-                
-                    
-                    string json = JsonSerializer.Serialize<List<LibraryItemEntity>>(libraryItemEntities);
-                    
-                
-               
-
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                };
+                string json = JsonSerializer.Serialize<List<LibraryItemEntity>>(libraryItemEntities, options);
                 File.WriteAllText(FileName, json);
             }
             catch (Exception exception)
@@ -110,8 +139,8 @@ namespace list
                 throw new LibraryException();
             }
         }
-        
-        private  string _readFromEndUntilDot(string input)
+
+        private string _readFromEndUntilDot(string input)
         {
             var dotIndex = input.LastIndexOf('.');
             if (dotIndex != -1)

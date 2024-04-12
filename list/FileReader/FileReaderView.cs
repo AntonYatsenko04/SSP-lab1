@@ -18,6 +18,17 @@ namespace list
             openFileDialog1.Filter = "Text files(*.txt)|*.txt";
             this.MinimumSize = new Size(800, 600);
         }
+        
+        public FileReaderView(List<LibraryItemEntity> libraryItemEntities)
+        {
+            _fileReaderPresenter = new FileReaderPresenter(this, new FileReaderModel());
+            InitializeComponent();
+            openFileDialog1.Filter = "Text files(*.txt)|*.txt";
+            this.MinimumSize = new Size(800, 600);
+            OpenLibraryFile(libraryItemEntities[0]);
+           SetLibrary(libraryItemEntities);
+            return;
+        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -80,7 +91,7 @@ namespace list
 
         private void _setFontSize(float fontSize)
         {
-            _mainTextWindow.Font = new Font(_mainTextWindow.Font.FontFamily, fontSize);
+            
             _fileReaderPresenter.SetFontSize(fontSize);
         }
 
@@ -119,6 +130,13 @@ namespace list
             _allPagesCountLabel.Text = pagesCount.ToString();
         }
 
+        public void SetBufferSize(int pagesCount)
+        {
+            
+            stringNumComboBox.SelectedItem = pagesCount;
+
+        }
+
         public void SetFormActive()
         {
             NextPageButton.Enabled = true;
@@ -142,7 +160,8 @@ namespace list
 
         public void SetFontSize(float fontSize)
         {
-            _setFontSize(fontSize);
+            
+            _mainTextWindow.Font = new Font(_mainTextWindow.Font.FontFamily, fontSize);
         }
 
         private void _addItemToLibrary(LibraryItemEntity libraryItemEntity)
@@ -165,7 +184,12 @@ namespace list
         private void _libraryListBox_SelectedValueChanged(object sender, EventArgs e)
         {
             var selected = _libraryItemEntities[_libraryListBox.SelectedIndex];
-            _fileReaderPresenter.OpenLibraryFile(selected);
+            OpenLibraryFile(selected);
+        }
+
+        public void OpenLibraryFile(LibraryItemEntity libraryItemEntity)
+        {
+            _fileReaderPresenter.OpenLibraryFile(libraryItemEntity);
         }
     }
 }

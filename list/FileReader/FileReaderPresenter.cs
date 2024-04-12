@@ -24,6 +24,9 @@ namespace list
 
         private bool _fileDisabled = false;
 
+        private LibraryItemEntity _getCurrentLibraryEntity => new LibraryItemEntity(pageNumber: _currentPageNumber, fontSize: _fontSize,
+            bufferSize: _bufferSize, filePath: _filePath);
+
         public FileReaderPresenter(IFileReaderView fileReaderView, FileReaderModel fileReaderModel)
         {
             _fileReaderView = fileReaderView ?? throw new ArgumentNullException(nameof(fileReaderView));
@@ -53,6 +56,7 @@ namespace list
             }
             catch (Exception e)
             {
+                _fileReaderModel.DeleteLibraryEntity(filePath);
                 _fileReaderView.ShowErrorDialog(ErrorMessages.ImpossibleToReadFile);
             }
         }
@@ -87,7 +91,6 @@ namespace list
                         }
 
                         _fileReaderView.SetReaderContent(string.Join(Environment.NewLine, lines));
-                        _updateFile();
                     }
                 }
             }
@@ -113,6 +116,7 @@ namespace list
                     _currentPageNumber++;
                     ReadPage(fileStream);
                 }
+
                 _updateFile();
 
                 _fileReaderView.SetPageNumber(_currentPageNumber);
@@ -141,7 +145,7 @@ namespace list
                 }
 
                 _updateFile();
-                
+
                 _fileReaderView.SetPageNumber(_currentPageNumber);
             }
             catch (UpdateFileException e)
@@ -167,13 +171,18 @@ namespace list
                 int pageNumber = int.Parse(pageNumberString);
                 FileStream fileStream = _fileReaderModel.OpenFile(_filePath);
                 int pagesCount = GetPagesCount(fileStream);
+                _fileReaderView.SetPagesCount(pagesCount);
 
                 if (pageNumber <= pagesCount && pageNumber > 0)
                 {
                     _currentPageNumber = pageNumber;
-                    ReadPage(fileStream);
+                }
+                else
+                {
+                    _currentPageNumber = 1;
                 }
 
+                ReadPage(fileStream);
                 _fileReaderView.SetPageNumber(_currentPageNumber);
                 _updateFile();
             }
@@ -195,11 +204,12 @@ namespace list
 
         public void SetBufferSize(int bufferSize)
         {
-            if (bufferSize % 16 != 0 || bufferSize > 16384 || bufferSize < 4096) return;
-            
+            if (!LibraryValidator.ValidateBufferSize(bufferSize)) return;
+
             int oldBufferSize = _bufferSize;
             _bufferSize = bufferSize;
             int newPageNumber = oldBufferSize * _currentPageNumber / _bufferSize;
+            
             try
             {
                 _updateFile();
@@ -210,12 +220,14 @@ namespace list
             }
 
             GoToPage(newPageNumber.ToString());
-
-
         }
 
         public void SetFontSize(float fontSize)
         {
+            if (!LibraryValidator.ValidateFontSize(fontSize))
+            {
+                fontSize = 14;
+            }
             _fontSize = fontSize;
             _fileReaderView.SetFontSize(_fontSize);
             try
@@ -231,9 +243,10 @@ namespace list
         public void OpenLibraryFile(LibraryItemEntity libraryItemEntity)
         {
             OpenFile(libraryItemEntity.FilePath);
-            GoToPage(libraryItemEntity.PageNumber.ToString());
             SetBufferSize(libraryItemEntity.BufferSize);
-           // SetFontSize(libraryItemEntity.FontSize);
+            GoToPage(libraryItemEntity.PageNumber.ToString());
+
+            SetFontSize(libraryItemEntity.FontSize);
         }
 
         private void _updateFile()
@@ -241,16 +254,12 @@ namespace list
             if (_fileDisabled) return;
             try
             {
-                var newLibraryEntity = new LibraryItemEntity(pageNumber: _currentPageNumber, fontSize: _fontSize,
-                    bufferSize: _bufferSize, filePath: _filePath);
-
-                var newLibraryItemEntities = _fileReaderModel.UpdateLibrary(newLibraryEntity);
-                _fileReaderView.SetLibrary(newLibraryItemEntities);
-
+                var newLibraryItemEntities = _fileReaderModel.UpdateLibrary(_getCurrentLibraryEntity);
                 _fileReaderView.SetLibrary(newLibraryItemEntities);
             }
             catch (Exception e)
             {
+                _fileDisabled = true;
                 throw new UpdateFileException();
             }
         }

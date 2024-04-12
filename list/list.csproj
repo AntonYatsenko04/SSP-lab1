@@ -92,6 +92,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppInitializer.cs" />
     <Compile Include="CurrentUserSecurity.cs" />
     <Compile Include="ErrorMessages.cs" />
     <Compile Include="Exceptions\AppException.cs" />
@@ -109,6 +110,7 @@
       <DependentUpon>FileReaderView.cs</DependentUpon>
     </Compile>
     <Compile Include="FileReader\IFileReaderView.cs" />
+    <Compile Include="LibraryValidator.cs" />
     <Compile Include="Library\ILibraryView.cs" />
     <Compile Include="Library\LibraryException.cs" />
     <Compile Include="Library\LibraryItemEntity.cs" />
