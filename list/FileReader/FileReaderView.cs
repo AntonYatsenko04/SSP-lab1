@@ -132,8 +132,8 @@ namespace list
 
         public void SetBufferSize(int pagesCount)
         {
-            
-            stringNumComboBox.SelectedItem = pagesCount;
+
+            _bufferLabel.Text = pagesCount.ToString();
 
         }
 
@@ -183,6 +183,7 @@ namespace list
 
         private void _libraryListBox_SelectedValueChanged(object sender, EventArgs e)
         {
+            if (_libraryListBox.SelectedIndex >= _libraryItemEntities.Count) return;
             var selected = _libraryItemEntities[_libraryListBox.SelectedIndex];
             OpenLibraryFile(selected);
         }

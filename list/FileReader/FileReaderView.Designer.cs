@@ -44,6 +44,7 @@
             this._pageNumberTextBox = new System.Windows.Forms.TextBox();
             this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
             this._libraryListBox = new System.Windows.Forms.ListBox();
+            this._bufferLabel = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -199,11 +200,20 @@
             this._libraryListBox.TabIndex = 10;
             this._libraryListBox.SelectedValueChanged += new System.EventHandler(this._libraryListBox_SelectedValueChanged);
             // 
+            // _bufferLabel
+            // 
+            this._bufferLabel.Location = new System.Drawing.Point(318, 30);
+            this._bufferLabel.Name = "_bufferLabel";
+            this._bufferLabel.Size = new System.Drawing.Size(100, 23);
+            this._bufferLabel.TabIndex = 11;
+            this._bufferLabel.Text = "\r\n";
+            // 
             // FileReaderView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(760, 612);
+            this.Controls.Add(this._bufferLabel);
             this.Controls.Add(this._libraryListBox);
             this.Controls.Add(this._pageNumberTextBox);
             this.Controls.Add(this._allPagesCountLabel);
@@ -222,6 +232,8 @@
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        private System.Windows.Forms.Label _bufferLabel;
 
         private System.Windows.Forms.ListBox _libraryListBox;
 
